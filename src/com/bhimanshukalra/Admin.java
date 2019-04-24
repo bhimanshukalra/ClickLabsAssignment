@@ -6,7 +6,7 @@ import static com.bhimanshukalra.Customer.printDetails;
 
 public class Admin {
 
-    //Helper function to check if integer input is valid
+    //Helper function to get valid integer input
     private static int getIntegerInput(Scanner scanner) {
         String input = scanner.next();
         int num;
@@ -17,6 +17,16 @@ public class Admin {
             num = getIntegerInput(scanner);
         }
         return num;
+    }
+
+    //Helper function to get non-integer string input
+    private static String getStringInput(Scanner scanner) {
+        String input = scanner.nextLine();
+        if(containsInt(input)){
+            System.out.println("Incorrect input");
+            input = getStringInput(scanner);
+        }
+        return input;
     }
 
     //Displays menu and gets option selected
@@ -35,7 +45,6 @@ public class Admin {
     //Action according to option opted in main menu
     private static void mainMenu(HashMap<Integer, Customer> customersList, Scanner scanner) {
         int id=0;
-//        int id = temp(customersList);//Get id of the last customer add by the temp function
         while (true) {
             int optionOpted = displayMenu(scanner);//Display menu and get option entered by user
             switch (optionOpted) {//Actions according to option chosen
@@ -64,15 +73,28 @@ public class Admin {
         }
     }
 
+    private static String capitalizeFirstLetter(String string){
+        String firstChar = String.valueOf(string.charAt(0)).toUpperCase();
+        return firstChar + string.substring(1);
+    }
+
     //Add new car of customer
     private static Car addNewCar(Scanner scanner) {
         Car car;
         System.out.print("Enter Company name(Hyundai, Maruti, Toyota): ");
         String companyName = scanner.nextLine();
-        System.out.print("Enter car's ID, model and price respectively: ");
+        companyName = companyName.toLowerCase();
+        if(containsInt(companyName) || ( (!companyName.equals("toyota")) && (!companyName.equals("hyundai")) && (!companyName.equals("maruti"))) ) {
+            System.out.println("Incorrect input");
+            return addNewCar(scanner);
+        }
+        companyName = capitalizeFirstLetter(companyName);
+        System.out.print("Enter car's ID: ");
         int ID = getIntegerInput(scanner);
         scanner.nextLine();
+        System.out.print("Enter car's model: ");
         String model = scanner.nextLine();
+        System.out.print("Enter car's price: ");
         int price = getIntegerInput(scanner);
         model=companyName+" "+model;
 
@@ -187,10 +209,14 @@ public class Admin {
 
     //Print individual customer according to ID
     private static void printCustomerAccordingToID(HashMap<Integer, Customer> customersList, Scanner scanner, int maxID) {
+        if(customersList.size()==0){
+            System.out.println("No customers");
+            return;
+        }
         System.out.print("Enter customer ID: ");
         int ID = getIntegerInput(scanner);
         if(ID>maxID){
-            System.out.println("Incorrect ID");
+            System.out.println("Incorrect ID (ID should be less than "+maxID+").");
             printCustomerAccordingToID(customersList, scanner, maxID);
             return;
         }
@@ -248,60 +274,6 @@ public class Admin {
         if (prizeWon)
             return;
         System.out.println("None");
-    }
-
-    //Temporary function to display the code functioning
-    private static int temp(HashMap<Integer, Customer> customersList) {
-        int id = 0;
-        Car car = new Toyota(++id, "Toyota one", 1111);
-        Customer customer = new Customer(id, "One", car);
-        customersList.put(1, customer);
-
-        car = new Toyota(id, "Toyota Sec car", 1111);
-        customer = new Customer(++id, "Two", car);
-        customersList.put(2, customer);
-
-        car = new Maruti(id, "Maruti Third car", 1111);
-        customer = new Customer(++id, "Three", car);
-        customersList.put(3, customer);
-
-        customer = customersList.get(3);
-        car = new Toyota(id, "Toyota corrola", 10000);
-        Customer.addNewCarToExistingCustomer(customer, car);
-
-        car = new Maruti(id, "Maruti Fourth car", 1111);
-        customer = new Customer(++id, "Four", car);
-        customersList.put(4, customer);
-
-        car = new Hyundai(id, "Hyundai Fifth", 1111);
-        customer = new Customer(++id, "Five", car);
-        customersList.put(5, customer);
-
-        car = new Hyundai(id, "Hyundai sixth", 1111);
-        customer = new Customer(++id, "Six", car);
-        customersList.put(6, customer);
-
-        car = new Hyundai(id, "Hyundai seventh", 1111);
-        customer = new Customer(++id, "Seven", car);
-        customersList.put(7, customer);
-
-        car = new Hyundai(id, "Hyundai eight", 1111);
-        customer = new Customer(++id, "Eight", car);
-        customersList.put(8, customer);
-
-        car = new Hyundai(id, "Hyundai nine", 1111);
-        customer = new Customer(++id, "Nine", car);
-        customersList.put(9, customer);
-
-        car = new Hyundai(id, "Hyundai Verna", 5000);
-        customer = new Customer(++id, "Bhimanshu Kalra", car);
-        customersList.put(10, customer);
-
-        customer = customersList.get(10);
-        car = new Hyundai(id, "Hyundai Creta", 2000);
-        Customer.addNewCarToExistingCustomer(customer, car);
-
-        return id;
     }
 
     public static void main(String[] args) {

@@ -6,8 +6,6 @@ import static com.bhimanshukalra.Customer.printDetails;
 
 public class Admin {
 
-    private static HashMap<Integer, Customer> customersList = new HashMap<>();
-
     //Helper function to check if integer input is valid
     private static int getIntegerInput(Scanner scanner) {
         String input = scanner.next();
@@ -35,9 +33,9 @@ public class Admin {
     }
 
     //Action according to option opted in main menu
-    private static void mainMenu(Scanner scanner) {
-        //int id=0;
-        int id = temp();//Get id of the last customer add by the temp function
+    private static void mainMenu(HashMap<Integer, Customer> customersList, Scanner scanner) {
+        int id=0;
+//        int id = temp(customersList);//Get id of the last customer add by the temp function
         while (true) {
             int optionOpted = displayMenu(scanner);//Display menu and get option entered by user
             switch (optionOpted) {//Actions according to option chosen
@@ -45,22 +43,22 @@ public class Admin {
                     return;
                 case 1:
                     scanner.nextLine();
-                    addNewCustomer(scanner, ++id);
+                    addNewCustomer(customersList, scanner, ++id);
                     break;
                 case 2:
-                    addNewCarToExistingCustomer(scanner, id);
+                    addNewCarToExistingCustomer(customersList, scanner, id);
                     break;
                 case 3:
-                    printSortedCustomerList();
+                    printSortedCustomerList(customersList);
                     break;
                 case 4:
-                    printCustomerAccordingToID(scanner, id);
+                    printCustomerAccordingToID(customersList, scanner, id);
                     break;
                 case 5:
-                    prizeGiveAway(scanner, id);
+                    prizeGiveAway(customersList, scanner, id);
                     break;
                 case 6:
-                    printCustomerList();
+                    printCustomerList(customersList);
                     break;
             }
         }
@@ -69,26 +67,28 @@ public class Admin {
     //Add new car of customer
     private static Car addNewCar(Scanner scanner) {
         Car car;
+        System.out.print("Enter Company name(Hyundai, Maruti, Toyota): ");
+        String companyName = scanner.nextLine();
         System.out.print("Enter car's ID, model and price respectively: ");
         int ID = getIntegerInput(scanner);
         scanner.nextLine();
         String model = scanner.nextLine();
-        if(model.indexOf(' ')==-1){
-            System.out.println("Incorrect input.");
-            return addNewCar(scanner);
-        }
         int price = getIntegerInput(scanner);
-        String companyName = model.substring(0, model.indexOf(' '));
+        model=companyName+" "+model;
 
-        if (companyName.equals("Toyota"))
-            car = new Toyota(ID, model, price);
-        else if (companyName.equals("Maruti"))
-            car = new Maruti(ID, model, price);
-        else if (companyName.equals("Hyundai"))
-            car = new Hyundai(ID, model, price);
-        else {
-            System.out.println("Incorrect input.");
-            car = addNewCar(scanner);
+        switch (companyName){
+            case "Toyota":
+                car = new Toyota(ID, model, price);
+                break;
+            case "Maruti":
+                car = new Maruti(ID, model, price);
+                break;
+            case "Hyundai":
+                car = new Hyundai(ID, model, price);
+                break;
+            default:
+                System.out.println("Incorrect input.");
+                car = addNewCar(scanner);
         }
         return car;
     }
@@ -104,12 +104,12 @@ public class Admin {
     }
 
     //Add new customer to data
-    private static void addNewCustomer(Scanner scanner, int id) {
+    private static void addNewCustomer(HashMap<Integer, Customer> customersList, Scanner scanner, int id) {
         System.out.print("Enter customer name: ");
         String name = scanner.nextLine();
         if(containsInt(name)){
             System.out.println("Incorrect input");
-            addNewCustomer(scanner, id);
+            addNewCustomer(customersList, scanner, id);
             return;
         }
         Car car = addNewCar(scanner);
@@ -119,12 +119,12 @@ public class Admin {
     }
 
     //Add new car of pre existing customer to data
-    private static void addNewCarToExistingCustomer(Scanner scanner, int maxID) {
+    private static void addNewCarToExistingCustomer(HashMap<Integer, Customer> customersList, Scanner scanner, int maxID) {
         System.out.print("Enter ID: ");
         int ID = getIntegerInput(scanner);
         if(ID>maxID){
             System.out.println("Incorrect ID");
-            addNewCarToExistingCustomer(scanner, maxID);
+            addNewCarToExistingCustomer(customersList, scanner, maxID);
             return;
         }
         Customer customer = customersList.get(ID);
@@ -141,7 +141,11 @@ public class Admin {
     }
 
     //Print customer name and cars (sorted according to customer name)
-    private static void printSortedCustomerList() {
+    private static void printSortedCustomerList(HashMap<Integer, Customer> customersList) {
+        if(customersList.keySet().size()==0){
+            System.out.println("Empty List");
+            return;
+        }
         TreeMap<String, ArrayList<Car>> sortedCustomersList = new TreeMap<>();
         for (int ID : customersList.keySet()) {
             Customer customer = customersList.get(ID);
@@ -155,7 +159,11 @@ public class Admin {
         System.out.println("-------------------------------");
     }
 
-    private static void printCustomerList() {
+    private static void printCustomerList(HashMap<Integer, Customer> customersList) {
+        if(customersList.keySet().size()==0){
+            System.out.println("Empty List");
+            return;
+        }
         System.out.println("---------CUSTOMER LIST---------");
         for(int ID : customersList.keySet()){
             Customer customer = customersList.get(ID);
@@ -178,12 +186,12 @@ public class Admin {
     }
 
     //Print individual customer according to ID
-    private static void printCustomerAccordingToID(Scanner scanner, int maxID) {
+    private static void printCustomerAccordingToID(HashMap<Integer, Customer> customersList, Scanner scanner, int maxID) {
         System.out.print("Enter customer ID: ");
         int ID = getIntegerInput(scanner);
         if(ID>maxID){
             System.out.println("Incorrect ID");
-            printCustomerAccordingToID(scanner, maxID);
+            printCustomerAccordingToID(customersList, scanner, maxID);
             return;
         }
         Customer customer = customersList.get(ID);
@@ -205,9 +213,8 @@ public class Admin {
     }
 
     //Compare random ID list(generated by computer) and the ID given by admin
-    private static void prizeGiveAway(Scanner scanner, int maxID) {
+    private static void prizeGiveAway(HashMap<Integer, Customer> customersList, Scanner scanner, int maxID) {
         ArrayList<Integer> IDArrayList = new ArrayList<>(customersList.keySet());
-        //System.out.println("IDArrayList: "+IDArrayList);
         if (IDArrayList.size() < 6) {
             System.out.println("Customer IDs should be greater than 5");
             return;
@@ -220,7 +227,7 @@ public class Admin {
             int ID = getIntegerInput(scanner);
             if(ID>maxID){
                 System.out.println("Incorrect ID");
-                prizeGiveAway(scanner, maxID);
+                prizeGiveAway(customersList, scanner, maxID);
                 return;
             }
             customerIDList.add(ID);
@@ -244,7 +251,7 @@ public class Admin {
     }
 
     //Temporary function to display the code functioning
-    private static int temp() {
+    private static int temp(HashMap<Integer, Customer> customersList) {
         int id = 0;
         Car car = new Toyota(++id, "Toyota one", 1111);
         Customer customer = new Customer(id, "One", car);
@@ -257,6 +264,10 @@ public class Admin {
         car = new Maruti(id, "Maruti Third car", 1111);
         customer = new Customer(++id, "Three", car);
         customersList.put(3, customer);
+
+        customer = customersList.get(3);
+        car = new Toyota(id, "Toyota corrola", 10000);
+        Customer.addNewCarToExistingCustomer(customer, car);
 
         car = new Maruti(id, "Maruti Fourth car", 1111);
         customer = new Customer(++id, "Four", car);
@@ -294,7 +305,8 @@ public class Admin {
     }
 
     public static void main(String[] args) {
+        HashMap<Integer, Customer> customersList = new HashMap<>();
         Scanner scanner = new Scanner(System.in);
-        mainMenu(scanner);//Main function having all the functionality
+        mainMenu(customersList, scanner);//Main function having all the functionality
     }
 }

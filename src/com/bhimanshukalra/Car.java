@@ -1,13 +1,13 @@
 package com.bhimanshukalra;
 
 abstract public class Car {
-    protected int ID;
+    protected int Id;
     protected String model;
     protected int price;
     protected int resaleValue;
 
-    public Car(int ID, String model, int price) {
-        this.ID=ID;
+    public Car(int Id, String model, int price) {
+        this.Id=Id;
         this.model=model;
         this.price=price;
     }

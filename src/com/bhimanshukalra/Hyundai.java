@@ -2,8 +2,8 @@ package com.bhimanshukalra;
 
 public class Hyundai extends Car{
 
-    public Hyundai(int ID, String model, int price){
-        super(ID, model, price);
+    public Hyundai(int Id, String model, int price){
+        super(Id, model, price);
         this.resaleValue=calculateResaleValue(price);
     }
 

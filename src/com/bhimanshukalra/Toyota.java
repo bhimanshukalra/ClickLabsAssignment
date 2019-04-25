@@ -2,8 +2,8 @@ package com.bhimanshukalra;
 
 public class Toyota extends Car{
 
-    public Toyota(int ID, String model, int price){
-        super(ID, model, price);
+    public Toyota(int Id, String model, int price){
+        super(Id, model, price);
         this.resaleValue=calculateResaleValue(price);
     }
 

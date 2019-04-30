@@ -141,19 +141,19 @@ public class Admin {
         customersList.put(id, customer);
     }
 
-    //Add new car of pre existing customer to data
+    //Add new car of pre existing customer
     private static void addNewCarToExistingCustomer(HashMap<Integer, Customer> customersList, Scanner scanner, int maxId) {
         if(maxId==0) {
             System.out.println("No customers in db.");
             return;
         }
-        int Id = getIntegerInput("Enter Id: ", scanner);
-        if(Id>maxId){
-            System.out.println("Incorrect Id (Id should be less than "+maxId+").");
+        int id = getIntegerInput("Enter Id: ", scanner);
+        if(id<=0 || id>maxId){
+            System.out.println("Incorrect Id (Id should be less than "+(maxId+1)+").");
             addNewCarToExistingCustomer(customersList, scanner, maxId);
             return;
         }
-        Customer customer = customersList.get(Id);
+        Customer customer = customersList.get(id);
         Car car = addNewCar(scanner);
         Customer.addNewCarToExistingCustomer(customer, car);
         printDetails(customer);

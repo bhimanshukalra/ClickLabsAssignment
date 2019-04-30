@@ -217,14 +217,14 @@ public class Admin {
             System.out.println("No customers");
             return;
         }
-        int Id = getIntegerInput("Enter customer Id: ", scanner);
-        if(Id>maxId){
-            System.out.println("Incorrect Id (Id should be less than "+maxId+").");
+        int id = getIntegerInput("Enter customer Id: ", scanner);
+        if(id<=0 || id>maxId){
+            System.out.println("Incorrect Id (Id should be less than "+(maxId+1)+").");
             printCustomerAccordingToId(customersList, scanner, maxId);
             return;
         }
-        Customer customer = customersList.get(Id);
-        System.out.println(Id + " " + customer.getName());
+        Customer customer = customersList.get(id);
+        System.out.println(id + " " + customer.getName());
     }
 
     //Generates 6 random customer Id for prize

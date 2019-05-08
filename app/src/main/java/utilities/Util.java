@@ -40,15 +40,3 @@ public class Util {
     }
 
 }
-
-/*
-    To-Do:
-        comment the code
-        indent all files
-    Done:
-        onSavedInstance(); For rotation
-        Buttons rounded corners
-        Styles.xml
-        check usage of all strings
-        implement textwatcher
- */

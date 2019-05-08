@@ -29,7 +29,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         findViewById(R.id.activity_login_img_btn_password_eye).setOnClickListener(this);
     }
 
-    //All editTexts are emptied and focus is set to the first one.
+    /**
+     * All editTexts are emptied and focus is set to the first one.
+     */
     @Override
     protected void onStart() {
         super.onStart();
@@ -38,7 +40,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mEditTextPassword.setText("");
     }
 
-    //Handle click on all clickable views.
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -54,7 +55,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    //If password is obscured, it will be revealed, else if it is revealed then it will be obscured.
+    /**
+     * If password is obscured, it will be revealed, else if it is revealed then it will be obscured.
+     */
     private void togglePasswordVisibility() {
         //129 is the inputType code for obscured version of password.
         if (mEditTextPassword.getInputType() == 129)
@@ -90,14 +93,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     /**
-     * This function will call the display
+     * This function will call the display Snackbar function in the util class
      *
-     * @param displayStr
+     * @param displayStr the string which will be displayed on the Snackbar.
      */
     private void displaySnackbar(String displayStr) {
         new Util().displaySnackbar(findViewById(R.id.activity_login_scroll_view), displayStr);
     }
 
+    /**
+     * This function simply hides the soft keyboard.
+     */
     private void hideKeyBoard() {
         if (mEditTextEmail.hasFocus())
             new Util().hideSoftKeyboard(mEditTextEmail);
@@ -105,6 +111,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             new Util().hideSoftKeyboard(mEditTextPassword);
     }
 
+    /**
+     * This function checks the validation of emailId entered.
+     *
+     * @param email This is the emailId entered by user.
+     * @return if emailId is valid or not.
+     */
     private boolean isEmailInvalid(String email) {
         int count = 0;
         if (email.contains("@"))
@@ -116,6 +128,5 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if (!email.contains(" "))
             count++;
         return count == 4;
-//        return !(email.contains("@") && email.contains(".com") && email.indexOf(".com")-email.indexOf("@")>1 && !email.contains(" "));
     }
 }

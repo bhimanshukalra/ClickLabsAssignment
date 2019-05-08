@@ -1,0 +1,103 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="ActivityRegistrationTv">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <style name="ActivityRegistrationEtRestrictedInput">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">@dimen/small_spacing</item>
+        <item name="android:digits">@string/all_english_letters_including_space</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="ActivityRegistrationEt">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">@dimen/small_spacing</item>
+        <item name="android:inputType">textCapSentences</item>
+    </style>
+
+    <style name="ScrollView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:fillViewport">true</item>
+    </style>
+
+    <style name="WidthMatchParentHeightWrapContent">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="WrapContentWrapContent">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="LinearLayoutVerticalWeightOne">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:paddingStart">@dimen/normal_spacing</item>
+        <item name="android:paddingTop">@dimen/normal_spacing</item>
+        <item name="android:paddingEnd">@dimen/normal_spacing</item>
+    </style>
+
+    <style name="LinearLayoutVerticalMpWc">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:paddingStart">@dimen/large_spacing</item>
+        <item name="android:paddingTop">@dimen/large_spacing</item>
+        <item name="android:paddingEnd">@dimen/normal_spacing</item>
+    </style>
+
+    <style name="WidthZeroHeightWc">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+
+    <style name="WidthMpHeightZero">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+
+    <style name="ActivityOtpEtOtp">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_marginStart">@dimen/small_spacing</item>
+        <item name="android:layout_marginEnd">@dimen/small_spacing</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:inputType">number</item>
+        <item name="android:maxLength">1</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:digits">@string/all_numbers</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="PaddingParentLayout">
+        <item name="android:paddingStart">@dimen/normal_spacing</item>
+        <item name="android:paddingTop">@dimen/normal_spacing</item>
+        <item name="android:paddingEnd">@dimen/normal_spacing</item>
+    </style>
+
+    <style name="TvWcWcBlackColor">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+</resources>

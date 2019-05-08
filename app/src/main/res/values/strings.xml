@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">LoginApp</string>
+    <string name="assignment_2">Assignment 2</string>
+    <string name="log_in_to_your_account">Log in to your account</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="log_in">Log in</string>
+    <string name="register">Register</string>
+    <string name="welcome_comma">Welcome,</string>
+    <string name="please_provide_your_basic_information">Please provide your basic information</string>
+    <string name="full_name">Full Name</string>
+    <string name="gender">Gender</string>
+    <string name="date_of_birth">Date of birth</string>
+    <string name="user_type">User type</string>
+    <string name="occupation">Occupation</string>
+    <string name="signup_with_different_account">Signup with different account?</string>
+    <string name="cont">Continue</string>
+    <string name="otp_verification">OTP verification</string>
+    <string name="enter_the_verification_code_sent_to_your_number_via_sms">Enter the verification code sent to your number via sms.</string>
+    <string name="resend">Resend</string>
+    <string name="submit">Submit</string>
+    <string name="all_english_letters">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWZYZ</string>
+    <string name="all_english_letters_including_space">abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWZYZ</string>
+    <string name="dont_have_an_account">Don\'t have an account?</string>
+    <string name="all_numbers">0123456789</string>
+</resources>

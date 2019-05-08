@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_login_scroll_view"
+    style="@style/ScrollView">
+
+    <LinearLayout
+        android:id="@+id/activity_login_linear_layout"
+        style="@style/LinearLayoutVerticalMpWc">
+
+        <TextView
+            style="@style/WrapContentWrapContent"
+            android:layout_marginBottom="@dimen/large_spacing"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="@string/log_in_to_your_account"
+            android:textSize="40sp" />
+
+        <EditText
+            android:id="@+id/activity_login_et_email"
+            style="@style/WidthMatchParentHeightWrapContent"
+            android:layout_marginBottom="@dimen/large_spacing"
+            android:hint="@string/email"
+            android:inputType="textEmailAddress" />
+
+        <RelativeLayout
+            style="@style/WidthMatchParentHeightWrapContent"
+            android:layout_marginBottom="@dimen/large_spacing">
+
+            <EditText
+                android:id="@+id/activity_login_et_password"
+                style="@style/WidthMatchParentHeightWrapContent"
+                android:hint="@string/password"
+                android:inputType="textPassword" />
+
+            <ImageButton
+                android:id="@+id/activity_login_img_btn_password_eye"
+                style="@style/WrapContentWrapContent"
+                android:layout_alignParentEnd="true"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_eye" />
+
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/activity_login_btn_login"
+            style="@style/WidthMatchParentHeightWrapContent"
+            android:background="@drawable/btn_sea_green_color_round_corners"
+            android:text="@string/log_in"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white" />
+
+        <LinearLayout
+            style="@style/WidthMpHeightZero"
+            android:paddingTop="@dimen/normal_spacing" />
+
+        <LinearLayout
+            style="@style/WidthMatchParentHeightWrapContent"
+            android:paddingBottom="@dimen/small_spacing">
+
+            <TextView
+                style="@style/WrapContentWrapContent"
+                android:layout_marginEnd="@dimen/small_spacing"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:text="@string/dont_have_an_account" />
+
+            <TextView
+                android:id="@+id/activity_login_tv_register"
+                style="@style/WrapContentWrapContent"
+                android:layout_weight="1"
+                android:gravity="start"
+                android:text="@string/register"
+                android:textAllCaps="true"
+                android:textColor="@color/colorBtnSeeGreen"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

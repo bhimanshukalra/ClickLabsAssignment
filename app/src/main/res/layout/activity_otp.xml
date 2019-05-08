@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_otp_scroll_view"
+    style="@style/ScrollView"
+    tools:context=".OtpActivity">
+
+    <LinearLayout
+        style="@style/WidthMatchParentHeightWrapContent"
+        android:layout_margin="@dimen/normal_spacing"
+        android:orientation="vertical">
+
+
+        <ImageButton
+            android:id="@+id/activity_otp_img_btn_back"
+            style="@style/WrapContentWrapContent"
+            android:layout_marginBottom="@dimen/small_spacing"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_back" />
+
+        <TextView
+            style="@style/TvWcWcBlackColor"
+            android:text="@string/otp_verification"
+            android:textSize="@dimen/standard_text_size" />
+
+        <TextView
+            style="@style/TvWcWcBlackColor"
+            android:text="@string/enter_the_verification_code_sent_to_your_number_via_sms"
+            android:textSize="@dimen/standard_text_size" />
+
+        <LinearLayout style="@style/WidthMatchParentHeightWrapContent">
+
+            <EditText
+                android:id="@+id/activity_otp_et_first"
+                android:imeOptions="actionNext"
+                style="@style/ActivityOtpEtOtp" />
+
+            <EditText
+                android:id="@+id/activity_otp_et_second"
+                android:imeOptions="actionNext"
+                style="@style/ActivityOtpEtOtp" />
+
+            <EditText
+                android:id="@+id/activity_otp_et_third"
+                android:imeOptions="actionNext"
+                style="@style/ActivityOtpEtOtp" />
+
+            <EditText
+                android:id="@+id/activity_otp_et_fourth"
+                style="@style/ActivityOtpEtOtp" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/WidthMatchParentHeightWrapContent"
+            android:layout_marginTop="@dimen/large_spacing">
+
+            <Button
+                android:id="@+id/activity_otp_btn_resend"
+                style="@style/WrapContentWrapContent"
+                android:layout_marginEnd="@dimen/small_spacing"
+                android:layout_weight="1"
+                android:background="@drawable/btn_sea_green_border_round_corners"
+                android:text="@string/resend" />
+
+            <Button
+                android:id="@+id/activity_otp_btn_submit"
+                style="@style/WrapContentWrapContent"
+                android:layout_weight="1"
+                android:background="@drawable/btn_sea_green_color_round_corners"
+                android:text="@string/submit"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

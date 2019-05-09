@@ -12,7 +12,7 @@ import android.widget.EditText;
  */
 public class CustomTextWatcher implements TextWatcher {
 
-    private EditText prevEditText, nextEditText;
+    private EditText mPrevEditText, mCurrentEditText, mNextEditText;
 
     /**
      * This is constructor for Custom text watcher class.
@@ -21,8 +21,14 @@ public class CustomTextWatcher implements TextWatcher {
      * @param nextEditText the EditText next to the current EditText
      */
     public CustomTextWatcher(EditText prevEditText, EditText nextEditText) {
-        this.prevEditText = prevEditText;
-        this.nextEditText = nextEditText;
+        mPrevEditText = prevEditText;
+        mNextEditText = nextEditText;
+    }
+
+    public CustomTextWatcher(EditText prevEditText, EditText currentEditText, EditText nextEditText) {
+        mPrevEditText = prevEditText;
+        mCurrentEditText = currentEditText;
+        mNextEditText = nextEditText;
     }
 
     @Override
@@ -39,9 +45,13 @@ public class CustomTextWatcher implements TextWatcher {
      */
     @Override
     public void afterTextChanged(Editable s) {
-        if (s.length() == 0 && prevEditText != null)
-            prevEditText.requestFocus();
-        else if (s.length() == 1 && nextEditText != null)
-            nextEditText.requestFocus();
+        if (s.length() == 0 && mPrevEditText != null)
+            mPrevEditText.requestFocus();
+        else if (s.length() == 1) {
+            if (mNextEditText != null)
+                mNextEditText.requestFocus();
+            else
+                new Util().hideSoftKeyboard(mCurrentEditText);
+        }
     }
 }

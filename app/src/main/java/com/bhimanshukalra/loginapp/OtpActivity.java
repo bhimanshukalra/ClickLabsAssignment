@@ -36,7 +36,7 @@ public class OtpActivity extends AppCompatActivity implements View.OnClickListen
         mEditTextFirst.addTextChangedListener(new CustomTextWatcher(null, mEditTextSecond));
         mEditTextSecond.addTextChangedListener(new CustomTextWatcher(mEditTextFirst, mEditTextThird));
         mEditTextThird.addTextChangedListener(new CustomTextWatcher(mEditTextSecond, mEditTextFourth));
-        mEditTextFourth.addTextChangedListener(new CustomTextWatcher(mEditTextThird, null));
+        mEditTextFourth.addTextChangedListener(new CustomTextWatcher(mEditTextThird, mEditTextFourth, null));
     }
 
     /**

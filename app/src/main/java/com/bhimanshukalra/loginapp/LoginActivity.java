@@ -84,7 +84,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             displaySnackbar("Enter email Id.");
         else if (isEmailInvalid(getText(mEditTextEmail)))
             displaySnackbar("Incorrect email Id.");
-        else if (getText(mEditTextPassword).length() < 5)
+        else if (getText(mEditTextPassword).length() < 6)
             displaySnackbar("Password should be greater than 5 characters.");
         else {
             hideKeyBoard();
@@ -105,9 +105,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
      * This function simply hides the soft keyboard.
      */
     private void hideKeyBoard() {
-        if (mEditTextEmail.hasFocus())
             new Util().hideSoftKeyboard(mEditTextEmail);
-        else
             new Util().hideSoftKeyboard(mEditTextPassword);
     }
 
@@ -127,6 +125,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             count++;
         if (!email.contains(" "))
             count++;
-        return count == 4;
+        return count != 4;
     }
 }

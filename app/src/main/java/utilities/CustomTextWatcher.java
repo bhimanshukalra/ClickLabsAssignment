@@ -51,6 +51,7 @@ public class CustomTextWatcher implements TextWatcher {
             if (mNextEditText != null)
                 mNextEditText.requestFocus();
             else
+                //Next EditText will only be null for the last EditText, and then we hide the soft keyboard.
                 new Util().hideSoftKeyboard(mCurrentEditText);
         }
     }

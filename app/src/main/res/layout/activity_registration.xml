@@ -80,7 +80,7 @@
         <Button
             android:id="@+id/activity_registration_btn_cont"
             style="@style/WidthMatchParentHeightWrapContent"
-            android:background="@drawable/btn_black_border"
+            android:background="@drawable/btn_secondary"
             android:text="@string/cont" />
 
     </LinearLayout>

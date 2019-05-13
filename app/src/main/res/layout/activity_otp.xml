@@ -59,14 +59,14 @@
                 style="@style/WrapContentWrapContent"
                 android:layout_marginEnd="@dimen/small_spacing"
                 android:layout_weight="1"
-                android:background="@drawable/btn_sea_green_border_round_corners"
+                android:background="@drawable/btn_secondary"
                 android:text="@string/resend" />
 
             <Button
                 android:id="@+id/activity_otp_btn_submit"
                 style="@style/WrapContentWrapContent"
                 android:layout_weight="1"
-                android:background="@drawable/btn_sea_green_color_round_corners"
+                android:background="@drawable/btn_primary"
                 android:text="@string/submit"
                 android:textColor="@android:color/white" />
         </LinearLayout>

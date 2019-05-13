@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_login_scroll_view"
     style="@style/ScrollView">
 
@@ -46,7 +44,7 @@
         <Button
             android:id="@+id/activity_login_btn_login"
             style="@style/WidthMatchParentHeightWrapContent"
-            android:background="@drawable/btn_sea_green_color_round_corners"
+            android:background="@drawable/btn_primary"
             android:text="@string/log_in"
             android:textAllCaps="false"
             android:textColor="@android:color/white" />

@@ -59,11 +59,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
      * If password is obscured, it will be revealed, else if it is revealed then it will be obscured.
      */
     private void togglePasswordVisibility() {
-        //129 is the inputType code for obscured version of password.
-        if (mEditTextPassword.getInputType() == 129)
+        //If password is obscured, reveal it.
+        if (mEditTextPassword.getInputType() == (InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD))
             mEditTextPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
         else
-            mEditTextPassword.setInputType(129);
+            //If password is revealed, obscure it.
+            mEditTextPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
     }
 
     /**

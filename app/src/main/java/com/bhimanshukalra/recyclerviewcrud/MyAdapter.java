@@ -73,7 +73,6 @@ class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                     if (fromUser) {
                         User user = mUsersList.get(getAdapterPosition());
                         user.setRating(rating);
-                        notifyItemChanged(getAdapterPosition());
                     }
                 }
             });

@@ -31,6 +31,7 @@ class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, final int position) {
+        //References of textViews, imageView and ratingBar.
         TextView textViewName = myViewHolder.mCardView.findViewById(R.id.list_item_tv_name);
         TextView textViewAge = myViewHolder.mCardView.findViewById(R.id.list_item_tv_age);
         TextView textViewPhoneNumber = myViewHolder.mCardView.findViewById(R.id.list_item_tv_phone);
@@ -38,6 +39,7 @@ class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         ImageView imageButtonProfileUrl = myViewHolder.mCardView.findViewById(R.id.list_item_img_user);
         TextView textViewLikes = myViewHolder.mCardView.findViewById(R.id.list_item_tv_like_count);
 
+        //Set values of all the views from the list.
         textViewName.setText(mUsersList.get(position).getName());
         textViewAge.setText(String.valueOf(mUsersList.get(position).getAge()));
         textViewPhoneNumber.setText(mUsersList.get(position).getPhoneNumber());
@@ -61,6 +63,7 @@ class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                 @Override
                 public void onClick(View v) {
                     User user = mUsersList.get(getAdapterPosition());
+                    //Increment like count.
                     user.setLikes(user.getLikes() + 1);
                     notifyItemChanged(getAdapterPosition());
                 }
@@ -72,6 +75,7 @@ class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                 public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                     if (fromUser) {
                         User user = mUsersList.get(getAdapterPosition());
+                        //Add user rating to the list.
                         user.setRating(rating);
                     }
                 }
@@ -79,6 +83,7 @@ class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             mCardView.findViewById(R.id.list_item_img_btn_close).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    //remove selected user from the list.
                     mUsersList.remove(getAdapterPosition());
                     notifyItemRemoved(getAdapterPosition());
                 }

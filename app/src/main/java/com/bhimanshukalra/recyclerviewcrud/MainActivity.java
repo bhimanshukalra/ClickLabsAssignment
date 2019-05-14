@@ -17,14 +17,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         recyclerView = findViewById(R.id.activity_main_recycler_view);
+        //Set LinearLayout of RecyclerView.
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         ArrayList<User> usersList = SetupUserList();
+        //Add usersList to Adapter.
         adapter = new MyAdapter(usersList);
         recyclerView.setAdapter(adapter);
-
     }
 
+    //Create a usersList.
     private ArrayList<User> SetupUserList() {
         ArrayList<User> usersList = new ArrayList<>();
         usersList.add(new User("One", 1, "123456789", 0, "https://avatars3.githubusercontent.com/u/32154931?s=460&v=4", 0));

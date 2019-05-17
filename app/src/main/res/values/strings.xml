@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">Student Management App</string>
+    <string name="switch_between_grid_view_and_list_view">Switch between grid view and list view</string>
+    <string name="sort_by_name">Sort by name</string>
+    <string name="sort_by_roll_number">Sort by roll no</string>
+    <string name="add_student">Add student</string>
+    <string name="no_data">No Data</string>
+    <string name="activity_splash_primary_tv">Assignment 3</string>
+    <string name="key">key</string>
+    <string name="details_list_new_student_intent_extra">addNewStudent</string>
+    <string name="details_form_et_student_name">Name</string>
+    <string name="details_from_et_student_roll_num">Roll Number</string>
+    <string name="details_form_et_student_class">Class</string>
+    <string name="all_numbers">0123456789</string>
+    <string name="all_letters_including_space">abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
+    <string name="student_from_primary_tv">Student Details</string>
+    <string name="activity_student_form_btn_primary">Update</string>
+    <string name="list_dialog_title">Alert</string>
+    <string name="list_dialog_message">What action would you like to perform?</string>
+    <string name="list_dialog_neutral_btn">View</string>
+    <string name="list_dialog_positive_btn">Update</string>
+    <string name="list_dialog_delete_btn">Delete</string>
+    <string name="list_dialog_view_intent_extra">View</string>
+    <string name="list_dialog_update_intent_extra">Update</string>
+    <string name="list_dialog_delete_intent_extra">Delete</string>
+    <string name="all_student">student</string>
+    <string name="form_primary_btn_add">Add</string>
+    <string name="adapter_intent_list_extra">studentsList</string>
+    <string name="dialog_message_prefix">What action would you like to perform on </string>
+    <string name="dialog_message_subfix">\?</string>
+    <string name="list_activity_title">Students List</string>
+    <string name="form_activity_title">Form</string>
+</resources>

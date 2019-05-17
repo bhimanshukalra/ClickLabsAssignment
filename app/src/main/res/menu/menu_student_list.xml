@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_student_list_list_grid_switch"
+        android:icon="@drawable/ic_grid"
+        android:title="@string/switch_between_grid_view_and_list_view"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/menu_student_list_sort_by_name"
+        android:icon="@mipmap/ic_launcher"
+        android:title="@string/sort_by_name"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_student_list_sort_by_roll_number"
+        android:icon="@mipmap/ic_launcher"
+        android:title="@string/sort_by_roll_number"
+        app:showAsAction="never" />
+
+</menu>

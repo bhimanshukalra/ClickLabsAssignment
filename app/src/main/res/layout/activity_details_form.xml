@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/details_form_scrollView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:id="@+id/details_form_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="50dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        tools:context=".DetailsFormActivity">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="20dp"
+            android:text="@string/student_from_primary_tv" />
+
+        <android.support.design.widget.TextInputLayout style="@style/styleTextInputLayout">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/activity_details_form_et_name"
+                style="@style/formEditText"
+                android:hint="@string/details_form_et_student_name" />
+
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout style="@style/styleTextInputLayout">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/activity_detail_form_et_student_class"
+                style="@style/formEditText"
+                android:hint="@string/details_form_et_student_class" />
+
+        </android.support.design.widget.TextInputLayout>
+
+
+        <android.support.design.widget.TextInputLayout style="@style/styleTextInputLayout">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/activity_detail_form_et_roll_num"
+                style="@style/formEditText"
+                android:hint="@string/details_from_et_student_roll_num" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <Button
+            android:id="@+id/activity_detail_from_btn_primary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@drawable/primary_btn"
+            android:text="@string/activity_student_form_btn_primary" />
+
+    </LinearLayout>
+</ScrollView>

@@ -27,7 +27,12 @@
     <string name="form_primary_btn_add">Add</string>
     <string name="adapter_intent_list_extra">studentsList</string>
     <string name="dialog_message_prefix">What action would you like to perform on </string>
-    <string name="dialog_message_subfix">\?</string>
+    <string name="dialog_message_suffix">\?</string>
     <string name="list_activity_title">Students List</string>
     <string name="form_activity_title">Form</string>
+    <string name="error_student_duplicity">This student already exists.</string>
+    <string name="error_full_name">Please enter full name.</string>
+    <string name="error_name">Please enter name.</string>
+    <string name="error_class">Please enter class.</string>
+    <string name="error_roll_num">Please enter roll number.</string>
 </resources>

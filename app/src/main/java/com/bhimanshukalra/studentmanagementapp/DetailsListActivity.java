@@ -13,7 +13,6 @@ import android.support.v7.view.menu.MenuView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,12 +22,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-import static Utilities.Util.log;
-import static com.bhimanshukalra.studentmanagementapp.Constants.GRID_VIEW_COLS_STUDENT_LIST_ACTIVITY;
+import static Utilities.Util.hideList;
+import static Utilities.Util.showList;
+import static com.bhimanshukalra.studentmanagementapp.Constants.GRID_VIEW_COLS_DETAILS_LIST_ACTIVITY;
 import static com.bhimanshukalra.studentmanagementapp.Constants.REQUEST_CODE_ADAPTER;
 import static com.bhimanshukalra.studentmanagementapp.Constants.REQUEST_CODE_STUDENT_LIST_ACTIVITY;
 import static com.bhimanshukalra.studentmanagementapp.RecyclerViewAdapter.setDataInRecycler;
 
+/**
+ * The Students Details list activity.
+ */
 public class DetailsListActivity extends AppCompatActivity implements RecyclerViewAdapter.RecyclerClickListener {
 
     private ArrayList<Student> mStudentsList = new ArrayList<>();
@@ -39,16 +42,15 @@ public class DetailsListActivity extends AppCompatActivity implements RecyclerVi
     private RecyclerView.Adapter mRecyclerAdapter;
     private boolean mIsSortByName;
 
-//    public void setItemClickedPosition(int itemClickedPosition) {
-//        mItemClickedPosition = itemClickedPosition;
-//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details_list);
-        if (getSupportActionBar() != null)
-            getSupportActionBar().setTitle(R.string.list_activity_title);
+        init();
+        /**
+         * Click Listener for the Add new student button.
+         */
         findViewById(R.id.activity_details_list_btn_add_student).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,65 +63,44 @@ public class DetailsListActivity extends AppCompatActivity implements RecyclerVi
                 startActivityForResult(intent, REQUEST_CODE_STUDENT_LIST_ACTIVITY);
             }
         });
+    }
 
-//        mStudentsList.add(new Student("One", "Eleven", 55));
-//        mStudentsList.add(new Student("Two", "Twenty two", 444));
-//        mStudentsList.add(new Student("Three", "Thirty three", 12));
-//        mStudentsList.add(new Student("Four", "Forty four", 56));
-//        mStudentsList.add(new Student("Five", "Eleven", 100));
-//        mStudentsList.add(new Student("Two", "Twenty two", 22));
-//        mStudentsList.add(new Student("Three", "Thirty three", 33));
-//        mStudentsList.add(new Student("Four", "Forty four", 44));
-//        mStudentsList.add(new Student("One", "Eleven", 11));
-//        mStudentsList.add(new Student("Two", "Twenty two", 22));
-//        mStudentsList.add(new Student("Three", "Thirty three", 33));
-//        mStudentsList.add(new Student("Four", "Forty four", 44));
+    /**
+     * Initialization function.
+     */
+    private void init() {
+        //Set Title of Activity.
+        if (getSupportActionBar() != null)
+            getSupportActionBar().setTitle(R.string.list_activity_title);
 
         mRecyclerView = findViewById(R.id.activity_details_list_recycler_student_list);
         mTvNoData = findViewById(R.id.activity_details_list_tv_no_data);
 
+        //Setup the recyclerView i.e. set the adapter and layoutManager
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mIsRecyclerLinear = true;
-        mRecyclerAdapter = new RecyclerViewAdapter(DetailsListActivity.this, this);
+        mRecyclerAdapter = new RecyclerViewAdapter(this);
         setDataInRecycler(mStudentsList);
         mRecyclerView.setAdapter(mRecyclerAdapter);
     }
 
-    private void showList() {
-        mRecyclerView.setVisibility(View.VISIBLE);
-        mTvNoData.setVisibility(View.GONE);
-        if (mIsRecyclerLinear) {
-            mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        } else {
-            mRecyclerView.setLayoutManager(new GridLayoutManager(this, GRID_VIEW_COLS_STUDENT_LIST_ACTIVITY));
-        }
-        mRecyclerView.setAdapter(mRecyclerAdapter);
-    }
-
-    public void hideList() {
-        mRecyclerView.setVisibility(View.GONE);
-        mTvNoData.setVisibility(View.VISIBLE);
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (data == null || data.getExtras() == null) {
-            Log.i("Bhimanshukalra", "data is null");
             return;
         }
-        Log.i("Bhimanshukalra", "" + requestCode + " " + requestCode + " " + data);
         String keyExtra = data.getStringExtra(getString(R.string.key));
-        if (requestCode == REQUEST_CODE_STUDENT_LIST_ACTIVITY &&
-                keyExtra.equals(getString(R.string.details_list_new_student_intent_extra))) {
+        //Return for new student activity
+        if (requestCode == REQUEST_CODE_STUDENT_LIST_ACTIVITY && keyExtra.equals(getString(R.string.details_list_new_student_intent_extra))) {
             Student student = (Student) data.getExtras().getSerializable(getString(R.string.all_student));
-            //resultCode == RESULT_OK
-            //TODO: check back press
             mStudentsList.add(student);
             if (mStudentsList.size() == 1)
-                showList();
+                showList(mRecyclerView, mRecyclerAdapter, mTvNoData, mIsRecyclerLinear, this);
             mRecyclerAdapter.notifyItemInserted(mStudentsList.size() - 1);
 
+            //Return for update student activity
         } else if (requestCode == REQUEST_CODE_ADAPTER && keyExtra.equals(getString(R.string.list_dialog_update_intent_extra))) {
             Student student = (Student) data.getExtras().getSerializable(getString(R.string.all_student));
             mStudentsList.remove(mItemClickedPosition);
@@ -141,7 +122,7 @@ public class DetailsListActivity extends AppCompatActivity implements RecyclerVi
             case R.id.menu_student_list_list_grid_switch:
                 MenuView.ItemView itemView = findViewById(R.id.menu_student_list_list_grid_switch);
                 if (mIsRecyclerLinear) {
-                    mRecyclerView.setLayoutManager(new GridLayoutManager(this, GRID_VIEW_COLS_STUDENT_LIST_ACTIVITY));
+                    mRecyclerView.setLayoutManager(new GridLayoutManager(this, GRID_VIEW_COLS_DETAILS_LIST_ACTIVITY));
                     itemView.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_list));
                     mIsRecyclerLinear = false;
                 } else {
@@ -162,17 +143,24 @@ public class DetailsListActivity extends AppCompatActivity implements RecyclerVi
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * This function is to sort the student list.
+     */
     private void sortList() {
         Collections.sort(mStudentsList, new CustomComparator());
-        for (int i = 0; i < mStudentsList.size(); i++)
-            log("" + mStudentsList.get(i).getName());
         mRecyclerAdapter.notifyDataSetChanged();
     }
 
+    /**
+     * An alert dialog is display with view, delete, update options.
+     *
+     * @param context  This is context of the parent activity.
+     * @param position This is the index of RecyclerView item tapped.
+     */
     private void showAlertDialog(final Context context, final int position) {
         new AlertDialog.Builder(context)
                 .setTitle(R.string.list_dialog_title)
-                .setMessage(getString(R.string.dialog_message_prefix) + " " + mStudentsList.get(position).getName() + getString(R.string.dialog_message_subfix))
+                .setMessage(getString(R.string.dialog_message_prefix) + " " + mStudentsList.get(position).getName() + getString(R.string.dialog_message_suffix))
                 .setNeutralButton(R.string.list_dialog_neutral_btn, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -191,12 +179,18 @@ public class DetailsListActivity extends AppCompatActivity implements RecyclerVi
                         mStudentsList.remove(position);
                         mRecyclerAdapter.notifyItemRemoved(position);
                         if (mStudentsList.size() == 0)
-                            hideList();
+                            hideList(mRecyclerView, mTvNoData);
                     }
                 })
                 .show();
     }
 
+    /**
+     * This function creates and putsExtras in and intent to DetailsActivity.
+     * @param context The context of current Activity.
+     * @param intentExtra The student detials to be displayed.
+     * @param position This is the index of RecyclerView item tapped.
+     */
     private void openDetailsActivity(Context context, String intentExtra, int position) {
         Intent intent = new Intent(context, DetailsFormActivity.class);
         intent.putExtra(context.getString(R.string.key), intentExtra);
@@ -205,11 +199,19 @@ public class DetailsListActivity extends AppCompatActivity implements RecyclerVi
         ((Activity) context).startActivityForResult(intent, REQUEST_CODE_ADAPTER);
     }
 
+    /**
+     * The recyclerView itemClicked interface call.
+     * @param view     The view tapped on
+     * @param position This is the index of RecyclerView item tapped.
+     */
     @Override
     public void recyclerListClicked(View view, int position) {
         showAlertDialog(DetailsListActivity.this, position);
     }
 
+    /**
+     * The Custom comparator class to sort the studentList according to student name or roll num.
+     */
     public class CustomComparator implements Comparator<Student> {
         @Override
         public int compare(Student stu1, Student stu2) {

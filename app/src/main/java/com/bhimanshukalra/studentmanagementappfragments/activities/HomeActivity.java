@@ -1,10 +1,15 @@
 package com.bhimanshukalra.studentmanagementappfragments.activities;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.bhimanshukalra.studentmanagementappfragments.Adapter.HomePageAdapter;
 import com.bhimanshukalra.studentmanagementappfragments.R;
@@ -50,8 +55,27 @@ public class HomeActivity extends AppCompatActivity implements ListFragment.List
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(HOME_ACTIVITY_TITLE);
         }
+        studentCount = INITIALIZE_WITH_ZERO;
+
+        Handler handler = new Handler();
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                setupViewPager();
+            }
+        };
+        handler.postDelayed(runnable, 3 * 1000);
+    }
+
+    private void setupViewPager() {
         mViewPager = findViewById(R.id.activity_home_view_pager);
         TabLayout tabLayout = findViewById(R.id.activity_home_tab_layout);
+        mViewPager.setVisibility(View.VISIBLE);
+        tabLayout.setVisibility(View.VISIBLE);
+        TextView splashTextView = findViewById(R.id.activity_home_tv);
+        splashTextView.setVisibility(View.GONE);
+        LinearLayout linearLayout = findViewById(R.id.activity_home_ll);
+        linearLayout.setBackgroundColor(Color.TRANSPARENT);
         mFragments = getFragments(this);
         mFragmentTitles = getFragmentTitles();
         mHomePageAdapter = new HomePageAdapter(getSupportFragmentManager(), mFragments, mFragmentTitles);
@@ -77,8 +101,8 @@ public class HomeActivity extends AppCompatActivity implements ListFragment.List
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
-        studentCount = INITIALIZE_WITH_ZERO;
     }
+
 
     /**
      * Switch to second page i.e. fragment.

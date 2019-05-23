@@ -18,12 +18,12 @@ public class HomePageAdapter extends FragmentStatePagerAdapter {
     /**
      * Instantiates a new Home page adapter.
      *
-     * @param fm             the FragmentManager
-     * @param fragments      the fragments reference list
-     * @param fragmentTitles the fragment titles list
+     * @param fragmentManager the FragmentManager
+     * @param fragments       the fragments reference list
+     * @param fragmentTitles  the fragment titles list
      */
-    public HomePageAdapter(FragmentManager fm, List<Fragment> fragments, List<String> fragmentTitles) {
-        super(fm);
+    public HomePageAdapter(FragmentManager fragmentManager, List<Fragment> fragments, List<String> fragmentTitles) {
+        super(fragmentManager);
         mFragments = fragments;
         mFragmentTitles = fragmentTitles;
     }

@@ -12,6 +12,14 @@ import android.widget.EditText;
 import com.bhimanshukalra.studentmanagementappfragments.R;
 import com.bhimanshukalra.studentmanagementappfragments.model.Student;
 
+import java.util.ArrayList;
+
+import static com.bhimanshukalra.studentmanagementappfragments.constants.Constants.ACCESS_MODE;
+import static com.bhimanshukalra.studentmanagementappfragments.constants.Constants.ACCESS_MODE_VIEW;
+import static com.bhimanshukalra.studentmanagementappfragments.constants.Constants.ADD_NEW_STUDENT;
+import static com.bhimanshukalra.studentmanagementappfragments.constants.Constants.EMPTY_STRING;
+import static com.bhimanshukalra.studentmanagementappfragments.constants.Constants.FORM_ADD_BTN_TEXT;
+import static com.bhimanshukalra.studentmanagementappfragments.constants.Constants.FORM_UPDATE_BTN_TEXT;
 import static com.bhimanshukalra.studentmanagementappfragments.utilities.Util.getTextFromEditText;
 import static com.bhimanshukalra.studentmanagementappfragments.utilities.Util.isInputValid;
 
@@ -20,11 +28,12 @@ import static com.bhimanshukalra.studentmanagementappfragments.utilities.Util.is
  */
 public class FormFragment extends Fragment {
     private FormInterface mFormInterface;
-    private EditText etName;
-    private EditText etClass;
-    private EditText etRollNumber;
-    private Button primaryBtn;
-    private int position;
+    private EditText mEtName;
+    private EditText mEtClass;
+    private EditText mEtRollNumber;
+    private Button mPrimaryBtn;
+    private int mPosition;
+    private ArrayList<Integer> mRollNumbers;
 
 
     /**
@@ -48,6 +57,10 @@ public class FormFragment extends Fragment {
         return formFragment;
     }
 
+    public void setStudentRollNumberList(ArrayList<Integer> rollNumbers) {
+        mRollNumbers = rollNumbers;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,69 +79,70 @@ public class FormFragment extends Fragment {
      * Set student data.
      *
      * @param student  the student object
-     * @param position the position at which student has to added in the list.
+     * @param position the mPosition at which student has to added in the list.
      */
     public void setStudentData(Student student, int position) {
-        etName.setText(student.getName());
-        etClass.setText(student.getClassName());
-        etRollNumber.setText(String.valueOf(student.getRollNumber()));
-        primaryBtn.setText("Update");
-        this.position = position;
+        mEtName.setText(student.getName());
+        mEtClass.setText(student.getClassName());
+        mEtRollNumber.setText(String.valueOf(student.getRollNumber()));
+        mPrimaryBtn.setText(FORM_UPDATE_BTN_TEXT);
+        this.mPosition = position;
     }
 
     /**
      * Clear all edit texts.
      */
     public void init() {
-        etName.setText("");
-        etClass.setText("");
-        etRollNumber.setText("");
-        primaryBtn.setText("Add");
+        mEtName.setText(EMPTY_STRING);
+        mEtClass.setText(EMPTY_STRING);
+        mEtRollNumber.setText(EMPTY_STRING);
+        mPrimaryBtn.setText(FORM_ADD_BTN_TEXT);
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         final View view = inflater.inflate(R.layout.fragment_form, container, false);
-        etName = view.findViewById(R.id.fragment_form_et_name);
-        etClass = view.findViewById(R.id.fragment_form_et_student_class);
-        etRollNumber = view.findViewById(R.id.fragment_form_et_roll_number);
-        primaryBtn = view.findViewById(R.id.fragment_form_btn_primary);
-        position = -1;
+        mEtName = view.findViewById(R.id.fragment_form_et_name);
+        mEtClass = view.findViewById(R.id.fragment_form_et_student_class);
+        mEtRollNumber = view.findViewById(R.id.fragment_form_et_roll_number);
+        mPrimaryBtn = view.findViewById(R.id.fragment_form_btn_primary);
+        mPosition = -1;
 
         if (getArguments() != null) {
             Bundle bundle = getArguments();
             Student student = (Student) bundle.getSerializable("student");
-            String accessMode = bundle.getString("accessMode");
-            if (accessMode.equals("view")) {
-                etName.setEnabled(false);
-                etClass.setEnabled(false);
-                etRollNumber.setEnabled(false);
-                primaryBtn.setVisibility(View.GONE);
+            String accessMode = bundle.getString(ACCESS_MODE);
+            if (accessMode.equals(ACCESS_MODE_VIEW)) {
+                mEtName.setEnabled(false);
+                mEtClass.setEnabled(false);
+                mEtRollNumber.setEnabled(false);
+                mPrimaryBtn.setVisibility(View.GONE);
             }
             if (student != null) {
-                etName.setText(student.getName());
-                etClass.setText(student.getClassName());
-                etRollNumber.setText(String.valueOf(student.getRollNumber()));
+                mEtName.setText(student.getName());
+                mEtClass.setText(student.getClassName());
+                mEtRollNumber.setText(String.valueOf(student.getRollNumber()));
             }
         }
 
-        primaryBtn.setOnClickListener(new View.OnClickListener() {
+        mPrimaryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String name = getTextFromEditText(etName);
-                String className = getTextFromEditText(etClass);
-                String rollNumInput = getTextFromEditText(etRollNumber);
-                if (!isInputValid(view.findViewById(R.id.fragment_details_form_scrollView), name, className, rollNumInput)) {
+                String name = getTextFromEditText(mEtName);
+                String className = getTextFromEditText(mEtClass);
+                String rollNumInput = getTextFromEditText(mEtRollNumber);
+                Button primaryBtn = view.findViewById(R.id.fragment_form_btn_primary);
+                String accessMode = primaryBtn.getText().toString();
+                if (!isInputValid(view.findViewById(R.id.fragment_details_form_scrollView), name, className, rollNumInput, mRollNumbers, accessMode)) {
                     return;
                 }
                 Integer rollNumber = Integer.parseInt(rollNumInput);
-                etName.setText("");
-                etClass.setText("");
-                etRollNumber.setText("");
-                mFormInterface.getStudentDataViaForm(new Student(name, className, rollNumber), position);
-                position = -1;
+                mEtName.setText(EMPTY_STRING);
+                mEtClass.setText(EMPTY_STRING);
+                mEtRollNumber.setText(EMPTY_STRING);
+                mFormInterface.getStudentDataViaForm(new Student(name, className, rollNumber), mPosition);
+                mPosition = ADD_NEW_STUDENT;
             }
         });
         return view;
@@ -142,7 +156,7 @@ public class FormFragment extends Fragment {
          * Gets student data via form.
          *
          * @param student  the student data.
-         * @param position the position at which student has to added in the list.
+         * @param position the mPosition at which student has to added in the list.
          */
         void getStudentDataViaForm(Student student, int position);
     }

@@ -19,7 +19,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bhimanshukalra.studentmanagementappfragments.Adapter.StudentListAdapter;
 import com.bhimanshukalra.studentmanagementappfragments.R;
@@ -32,7 +31,21 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import static com.bhimanshukalra.studentmanagementappfragments.Adapter.StudentListAdapter.setDataInRecycler;
-import static com.bhimanshukalra.studentmanagementappfragments.utilities.Util.log;
+import static com.bhimanshukalra.studentmanagementappfragments.constants.Constants.ACCESS_MODE_UPDATE;
+import static com.bhimanshukalra.studentmanagementappfragments.constants.Constants.ALERT_DIALOG_MSG_PREFIX;
+import static com.bhimanshukalra.studentmanagementappfragments.constants.Constants.ALERT_DIALOG_MSG_SUFFIX;
+import static com.bhimanshukalra.studentmanagementappfragments.constants.Constants.ALERT_DIALOG_NEGATIVE_BTN_TEXT;
+import static com.bhimanshukalra.studentmanagementappfragments.constants.Constants.ALERT_DIALOG_NEUTRAL_BTN_TEXT;
+import static com.bhimanshukalra.studentmanagementappfragments.constants.Constants.ALERT_DIALOG_POSITIVE_TBN_TEXT;
+import static com.bhimanshukalra.studentmanagementappfragments.constants.Constants.ALERT_DIALOG_TITLE;
+import static com.bhimanshukalra.studentmanagementappfragments.constants.Constants.GRID_VIEW_COLS;
+import static com.bhimanshukalra.studentmanagementappfragments.constants.Constants.MINIMUM_SIZE_TO_DISPLAY_LIST;
+import static com.bhimanshukalra.studentmanagementappfragments.constants.Constants.SIZE_ZERO;
+import static com.bhimanshukalra.studentmanagementappfragments.constants.Constants.SORT_BY_NAME;
+import static com.bhimanshukalra.studentmanagementappfragments.constants.Constants.SORT_BY_ROLL_NUMBER;
+import static com.bhimanshukalra.studentmanagementappfragments.constants.Constants.STUDENT_INTENT_KEY;
+import static com.bhimanshukalra.studentmanagementappfragments.utilities.Util.hideList;
+import static com.bhimanshukalra.studentmanagementappfragments.utilities.Util.showList;
 
 /**
  * The type List fragment.
@@ -51,16 +64,13 @@ public class ListFragment extends Fragment implements StudentListAdapter.Recycle
     public ListFragment() {
     }
 
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        log("onCreateView");
         View view = inflater.inflate(R.layout.fragment_list, container, false);
         setHasOptionsMenu(true);
         mRecyclerView = view.findViewById(R.id.fragment_list_recycler_student_list);
         mTvNoData = view.findViewById(R.id.fragment_list_tv_no_data);
-        log("onCreateView listFragment");
         setDataInRecycler(mStudentsList);
         mRecyclerView.setAdapter(mAdapter);
         mLayoutManager = new LinearLayoutManager(getActivity());
@@ -72,6 +82,14 @@ public class ListFragment extends Fragment implements StudentListAdapter.Recycle
             }
         });
         return view;
+    }
+
+    public ArrayList<Integer> getStudentRollNumberList() {
+        ArrayList<Integer> rollNumbers = new ArrayList<>();
+        for (Student student : mStudentsList) {
+            rollNumbers.add(student.getRollNumber());
+        }
+        return rollNumbers;
     }
 
     /**
@@ -91,24 +109,16 @@ public class ListFragment extends Fragment implements StudentListAdapter.Recycle
      * @param accessMode the access permissions of the currentItem.
      */
     public void getStudentData(Student student, int position, String accessMode) {
-        if (accessMode.equals("update")) {
+        if (accessMode.equals(ACCESS_MODE_UPDATE)) {
             mStudentsList.remove(position);
             mStudentsList.add(position, student);
             mAdapter.notifyDataSetChanged();
         } else {
             addToList(student);
         }
-        if (mStudentsList.size() == 1) {
-            showList();
+        if (mStudentsList.size() == MINIMUM_SIZE_TO_DISPLAY_LIST) {
+            showList(mRecyclerView, mTvNoData);
         }
-    }
-
-    /**
-     * Show list and hide "No Data" textView.
-     */
-    private void showList() {
-        mRecyclerView.setVisibility(View.VISIBLE);
-        mTvNoData.setVisibility(View.GONE);
     }
 
     /**
@@ -135,16 +145,16 @@ public class ListFragment extends Fragment implements StudentListAdapter.Recycle
                     mLayoutManager = new LinearLayoutManager(getActivity());
                     menuViewIcon.setIcon(ContextCompat.getDrawable(getActivity(), R.drawable.ic_grid));
                 } else {
-                    mLayoutManager = new GridLayoutManager(getActivity(), 2);
+                    mLayoutManager = new GridLayoutManager(getActivity(), GRID_VIEW_COLS);
                     menuViewIcon.setIcon(ContextCompat.getDrawable(getActivity(), R.drawable.ic_list));
                 }
                 mRecyclerView.setLayoutManager(mLayoutManager);
                 break;
             case R.id.menu_list_fragment_sort_by_name:
-                sortList("byName");
+                sortList(SORT_BY_NAME);
                 break;
             case R.id.menu_list_fragment_gsort_by_roll_number:
-                sortList("byRollNumber");
+                sortList(SORT_BY_ROLL_NUMBER);
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -157,7 +167,7 @@ public class ListFragment extends Fragment implements StudentListAdapter.Recycle
      */
     private void sortList(String sortMethod) {
         boolean sortByName = true;
-        if (sortMethod.equals("byRollNumber"))
+        if (sortMethod.equals(SORT_BY_ROLL_NUMBER))
             sortByName = false;
         Collections.sort(mStudentsList, new CustomComparator(sortByName));
         mAdapter.notifyDataSetChanged();
@@ -182,44 +192,34 @@ public class ListFragment extends Fragment implements StudentListAdapter.Recycle
      */
     private void showAlertDialog(final Context context, final int position) {
         new AlertDialog.Builder(context)
-                .setTitle("Alert")
-                .setMessage("What action would you like to perform on " + mStudentsList.get(position).getName() + "?")
-                .setNeutralButton("View", new DialogInterface.OnClickListener() {
+                .setTitle(ALERT_DIALOG_TITLE)
+                .setMessage(ALERT_DIALOG_MSG_PREFIX + mStudentsList.get(position).getName() + ALERT_DIALOG_MSG_SUFFIX)
+                .setNeutralButton(ALERT_DIALOG_NEUTRAL_BTN_TEXT, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Intent intent = new Intent(context, ViewDetailsActivity.class);
-                        intent.putExtra("student", (Serializable) mStudentsList.get(position));
+                        intent.putExtra(STUDENT_INTENT_KEY, (Serializable) mStudentsList.get(position));
                         startActivity(intent);
                     }
                 })
-                .setPositiveButton("Update", new DialogInterface.OnClickListener() {
+                .setPositiveButton(ALERT_DIALOG_POSITIVE_TBN_TEXT, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(context, "Update", Toast.LENGTH_SHORT).show();
                         mListInterface.openUpdateForm(position, mStudentsList.get(position));
                     }
                 })
-                .setNegativeButton("Delete", new DialogInterface.OnClickListener() {
+                .setNegativeButton(ALERT_DIALOG_NEGATIVE_BTN_TEXT, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(context, "Delete", Toast.LENGTH_SHORT).show();
-
                         mStudentsList.remove(position);
                         mAdapter.notifyItemRemoved(position);
-                        if (mStudentsList.size() == 0) {
-                            hideList();
+                        if (mStudentsList.size() == SIZE_ZERO) {
+                            hideList(mRecyclerView, mTvNoData);
                         }
+                        mListInterface.itemDeleted();
                     }
                 })
                 .show();
-    }
-
-    /**
-     * Hide the list and show "No Data" textView.
-     */
-    private void hideList() {
-        mRecyclerView.setVisibility(View.GONE);
-        mTvNoData.setVisibility(View.VISIBLE);
     }
 
     /**
@@ -238,6 +238,11 @@ public class ListFragment extends Fragment implements StudentListAdapter.Recycle
          * @param student  the student data.
          */
         void openUpdateForm(int position, Student student);
+
+        /**
+         * An item is deleted for the list.
+         */
+        void itemDeleted();
     }
 
     /**
@@ -265,26 +270,4 @@ public class ListFragment extends Fragment implements StudentListAdapter.Recycle
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

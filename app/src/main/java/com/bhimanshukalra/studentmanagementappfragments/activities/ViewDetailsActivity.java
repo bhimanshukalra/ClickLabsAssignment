@@ -39,7 +39,6 @@ public class ViewDetailsActivity extends AppCompatActivity {
         FormFragment formFragment = FormFragment.newInstance(bundle);
         fragmentTransaction.add(R.id.activity_view_details_ll, formFragment).commit();
 
-
         if (getSupportActionBar() != null) {
             //Set back button on app bar.
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -47,7 +46,6 @@ public class ViewDetailsActivity extends AppCompatActivity {
             getSupportActionBar().setTitle("View student");
         }
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

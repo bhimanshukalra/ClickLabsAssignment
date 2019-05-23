@@ -23,29 +23,14 @@ public class Student implements Serializable {
         this.rollNumber = rollNumber;
     }
 
-    /**
-     * Gets name.
-     *
-     * @return the name
-     */
     public String getName() {
         return name;
     }
 
-    /**
-     * Gets class name.
-     *
-     * @return the class name
-     */
     public String getClassName() {
         return className;
     }
 
-    /**
-     * Gets roll number.
-     *
-     * @return the roll number
-     */
     public Integer getRollNumber() {
         return rollNumber;
     }

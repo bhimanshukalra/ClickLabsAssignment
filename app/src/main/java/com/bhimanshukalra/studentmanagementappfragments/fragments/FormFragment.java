@@ -1,11 +1,13 @@
 package com.bhimanshukalra.studentmanagementappfragments.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -141,11 +143,20 @@ public class FormFragment extends Fragment {
                 mEtName.setText(EMPTY_STRING);
                 mEtClass.setText(EMPTY_STRING);
                 mEtRollNumber.setText(EMPTY_STRING);
+                hideKeyboard();
                 mFormInterface.getStudentDataViaForm(new Student(name, className, rollNumber), mPosition);
                 mPosition = ADD_NEW_STUDENT;
             }
         });
         return view;
+    }
+
+    private void hideKeyboard() {
+        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        imm.hideSoftInputFromWindow(mEtName.getWindowToken(), 0);
+        imm.hideSoftInputFromWindow(mEtClass.getWindowToken(), 0);
+        imm.hideSoftInputFromWindow(mEtRollNumber.getWindowToken(), 0);
     }
 
     /**

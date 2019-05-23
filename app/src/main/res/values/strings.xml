@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Student Management App Fragments</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="splash_title">Assignment 4</string>
+    <string name="all_no_data">No Data</string>
+    <string name="all_add_student">Add Student</string>
+    <string name="details_from_heading">Student Details</string>
+    <string name="all_letters_including_space">abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
+    <string name="details_form_et_name">Name</string>
+    <string name="details_form_et_class">Class</string>
+    <string name="all_numbers">0123456789</string>
+    <string name="details_from_et_roll_num">Roll Number</string>
+    <string name="details_form_btn_primary">Add</string>
+</resources>

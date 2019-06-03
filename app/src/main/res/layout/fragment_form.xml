@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:fillViewport="true"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/large_spacing"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/standard_spacing"
+            android:text="@string/fragment_form_title" />
+
+        <android.support.design.widget.TextInputLayout style="@style/textInputLayout">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/fragment_form_et_name"
+                style="@style/formEditText"
+                android:digits="@string/all_letters_including_space"
+                android:hint="@string/details_form_et_name" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout style="@style/textInputLayout">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/fragment_form_et_class_name"
+                style="@style/formEditText"
+                android:digits="@string/all_letters_including_space"
+                android:hint="@string/details_form_et_class" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout style="@style/textInputLayout">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/fragment_form_et_roll_number"
+                style="@style/formEditText"
+                android:digits="@string/all_numbers"
+                android:hint="@string/details_from_et_roll_num" />
+        </android.support.design.widget.TextInputLayout>
+
+        <Button
+            android:id="@+id/fragment_form_btn_primary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorAccent"
+            android:text="@string/fragment_form_btn_primary" />
+
+    </LinearLayout>
+
+</ScrollView>

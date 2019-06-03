@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">DbStudentManagement</string>
+    <string name="fragment_form_title">Student Details</string>
+    <string name="splash_title">Assignment 5</string>
+    <string name="all_no_data">No Data</string>
+    <string name="all_add_student">Add Student</string>
+    <string name="details_from_heading">Student Details</string>
+    <string name="all_letters_including_space">abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
+    <string name="details_form_et_name">Name</string>
+    <string name="details_form_et_class">Class</string>
+    <string name="all_numbers">0123456789</string>
+    <string name="details_from_et_roll_num">Roll Number</string>
+    <string name="fragment_form_btn_primary">Add</string>
+    <string name="item_student_tv_edit">Edit</string>
+    <string name="item_student_tv_delete">Delete</string>
+    <string name="form_tab_title_edit">Edit Student</string>
+    <string name="list_tab_title">List</string>
+    <string name="form_tab_tab_add_student">Add Student</string>
+    <string name="update_form_btn_text">Update</string>
+    <string name="home_label">Home</string>
+    <string name="menu_item_asynctask">AsyncTask</string>
+    <string name="menu_item_service">Service</string>
+    <string name="home_menu_item_intent_service">Intent Service</string>
+</resources>

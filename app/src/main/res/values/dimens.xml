@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="extra_small_spacing">4dp</dimen>
+    <dimen name="small_spacing">10dp</dimen>
+    <dimen name="standard_spacing">20dp</dimen>
+    <dimen name="large_spacing">50dp</dimen>
+
+    <dimen name="extra_large_text_size">40sp</dimen>
+    <dimen name="standard_text_size">20sp</dimen>
+
+</resources>

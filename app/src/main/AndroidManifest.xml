@@ -18,10 +18,10 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".backgroundTasks.ServiceBroadcastReceiver$MyService" />
-        <receiver android:name=".backgroundTasks.ServiceBroadcastReceiver" />
-        <receiver android:name=".backgroundTasks.IntentServiceBroadcastReceiver" />
-        <service android:name=".backgroundTasks.IntentServiceBroadcastReceiver$MyIntentService" />
+        <service android:name=".backgroundTasks.MyService$MyService" />
+        <service android:name=".backgroundTasks.MyIntentService" />
+        <service android:name=".backgroundTasks.MyService" />
+
 
     </application>
 

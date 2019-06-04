@@ -24,8 +24,8 @@ import static com.bhimanshukalra.studentmanagementdb.constants.Constants.UPDATE_
 import static com.bhimanshukalra.studentmanagementdb.constants.Constants.UPDATE_OPERATION;
 import static com.bhimanshukalra.studentmanagementdb.constants.Constants.UPDATION_IN_LIST;
 import static com.bhimanshukalra.studentmanagementdb.utilities.Util.getTextFromEditText;
-import static com.bhimanshukalra.studentmanagementdb.utilities.Util.intentServiceBroadcast;
 import static com.bhimanshukalra.studentmanagementdb.utilities.Util.serviceBroadcast;
+import static com.bhimanshukalra.studentmanagementdb.utilities.Util.startDbIntentService;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -77,46 +77,57 @@ public class FormFragment extends Fragment {
         view.findViewById(R.id.fragment_form_btn_primary).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Fetch input from user.
-                String name = getTextFromEditText(mEtName);
-                String className = getTextFromEditText(mEtClass);
-                int rollNumber = Integer.parseInt(getTextFromEditText(mEtRollNumber));
-
-                UPDATION_IN_LIST = true;
-                //boolean value to trigger db select statement only when a new student is added to db.
-
-                Student student = new Student(name, className, rollNumber);
-
-                if(primaryBtn.getText().equals(ADD_FORM_BTN_TEXT)) {
-                    //Add new student to db.
-                    if(BACKGROUND_TASK_HANDLER == ASYNCTASK) {
-                        new MyAsyncTask(CREATE_OPERATION, getActivity(), null).execute(student);
-                    }else if(BACKGROUND_TASK_HANDLER == SERVICE) {
-                        serviceBroadcast(getActivity(), CREATE_OPERATION, student);
-                    }else if(BACKGROUND_TASK_HANDLER == INTENT_SERVICE){
-                        intentServiceBroadcast(getActivity(), CREATE_OPERATION, student);
-                    }
-                }else if(primaryBtn.getText().equals(UPDATE_FORM_BTN_TEXT)){
-                    //Update student details.
-                    if(BACKGROUND_TASK_HANDLER == ASYNCTASK) {
-                        new MyAsyncTask(UPDATE_OPERATION, getActivity(), null).execute(student);
-                    }else if(BACKGROUND_TASK_HANDLER == SERVICE) {
-                        serviceBroadcast(getActivity(), UPDATE_OPERATION, student);
-                    }else if(BACKGROUND_TASK_HANDLER == INTENT_SERVICE){
-                        intentServiceBroadcast(getActivity(), UPDATE_OPERATION, student);
-                    }
-                }
-//                mFormInterface.switchToTab(LIST_TAB);
-                clearAllEditTexts();
+                handleClick();
             }
         });
     }
 
+    private void handleClick() {
+        //Fetch input from user.
+        String name = getTextFromEditText(mEtName);
+        String className = getTextFromEditText(mEtClass);
+        int rollNumber = Integer.parseInt(getTextFromEditText(mEtRollNumber));
+
+        UPDATION_IN_LIST = true;
+        //boolean value to trigger db select statement only when a new student is added to db.
+
+        Student student = new Student(name, className, rollNumber);
+
+        if (primaryBtn.getText().equals(ADD_FORM_BTN_TEXT)) {
+            //Add new student to db.
+            if (BACKGROUND_TASK_HANDLER == ASYNCTASK) {
+//                MyAsyncTask asyncTask = new MyAsyncTask(CREATE_OPERATION, getActivity(), null);
+                new MyAsyncTask(CREATE_OPERATION, getActivity(), null).execute(student);
+            } else if (BACKGROUND_TASK_HANDLER == SERVICE) {
+//                log("call serviceBroadcast");
+                serviceBroadcast(getActivity(), CREATE_OPERATION, student);
+            } else if (BACKGROUND_TASK_HANDLER == INTENT_SERVICE) {
+                startDbIntentService(getActivity(), CREATE_OPERATION, student);
+            }
+        } else if (primaryBtn.getText().equals(UPDATE_FORM_BTN_TEXT)) {
+            //Update student details.
+            if (BACKGROUND_TASK_HANDLER == ASYNCTASK) {
+                new MyAsyncTask(UPDATE_OPERATION, getActivity(), null).execute(student);
+            } else if (BACKGROUND_TASK_HANDLER == SERVICE) {
+                serviceBroadcast(getActivity(), UPDATE_OPERATION, student);
+            } else if (BACKGROUND_TASK_HANDLER == INTENT_SERVICE) {
+                startDbIntentService(getActivity(), UPDATE_OPERATION, student);
+            }
+        }
+    }
+
+//    public void postCreateOrUpdateInDb() {
+//        mFormInterface.switchToTab(LIST_TAB);
+////        clearAllEditTexts();
+//    }
 
 
     public void initBtn() {
         primaryBtn.setText(ADD_FORM_BTN_TEXT);
+    }
 
+    public String getPrimaryBtnText() {
+        return primaryBtn.getText().toString();
     }
 
     public void clearAllEditTexts() {

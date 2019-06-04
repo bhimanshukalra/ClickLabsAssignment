@@ -8,29 +8,30 @@ import com.bhimanshukalra.studentmanagementdb.models.Student;
 
 import java.util.ArrayList;
 
-import static com.bhimanshukalra.studentmanagementdb.constants.Constants.CREATE_OPERATION;
-import static com.bhimanshukalra.studentmanagementdb.constants.Constants.DELETE_OPERATION;
-import static com.bhimanshukalra.studentmanagementdb.constants.Constants.READ_ALL_OPERATION;
-import static com.bhimanshukalra.studentmanagementdb.constants.Constants.UPDATE_OPERATION;
+import static com.bhimanshukalra.studentmanagementdb.constants.Constants.DB_ERROR_MSG;
 import static com.bhimanshukalra.studentmanagementdb.utilities.Util.log;
 
-public class MyAsyncTask extends android.os.AsyncTask<Student, Student, Void> {
+public class MyAsyncTask extends android.os.AsyncTask<Student, Student, Long> {
     private DatabaseHandler mDb;
     private ArrayList<Student> mStudentList;
     private String mOperation;
     private StudentListAdapter mRecyclerAdapter;
+    //    private Context mContext;
+    private static AsyncTaskInterface mListener;
+    private String error = DB_ERROR_MSG;
+
+    public MyAsyncTask(AsyncTaskInterface listener) {
+        mListener = listener;
+    }
 
     public MyAsyncTask(String operation, Context context, StudentListAdapter recyclerAdapter) {
-        mOperation = operation;
-        if(context != null) {
-            mDb = new DatabaseHandler(context);
-        }else{
-            log("context is null!!!!!");
-        }
-        if (recyclerAdapter != null) {
-            mRecyclerAdapter = recyclerAdapter;
-        }
         log("MyAsyncTask");
+//        mOperation = operation;
+//        mDb = new DatabaseHandler(context);
+//        if (recyclerAdapter != null) {
+//            mRecyclerAdapter = recyclerAdapter;
+//        }
+        //TODO: recyclerView in post execute, don't take it as a parameter.
     }
 
     @Override
@@ -39,36 +40,45 @@ public class MyAsyncTask extends android.os.AsyncTask<Student, Student, Void> {
     }
 
     @Override
-    protected Void doInBackground(Student... students) {
-        switch (mOperation) {
-            case CREATE_OPERATION:
-                mDb.addStudent(students[0]);
-                break;
-            case UPDATE_OPERATION:
-                mDb.updateStudent(students[0]);
-                break;
-            case READ_ALL_OPERATION:
-                mStudentList = new ArrayList<>();
-                mDb.getAllStudents(mStudentList);
-                break;
-            case DELETE_OPERATION:
-                mDb.deleteStudent(students[0].getRollNumber());
-                break;
-        }
-        return null;
+    protected Long doInBackground(Student... students) {
+        long result = -1;
+
+//        switch (mOperation) {
+//            case CREATE_OPERATION:
+//                error = mDb.addStudent(students[0]);
+//                result = 1;
+//                break;
+//            case UPDATE_OPERATION:
+//                result = mDb.updateStudent(students[0]);
+//                break;
+//            case READ_ALL_OPERATION:
+//                mStudentList = new ArrayList<>();
+//                mDb.getAllStudents(mStudentList);
+//                result = 1;
+//                break;
+//            case DELETE_OPERATION:
+//                result = mDb.deleteStudent(students[0].getRollNumber());
+//                break;
+//        }
+        return result;
     }
 
     @Override
-    protected void onProgressUpdate(Student... students) {
-        super.onProgressUpdate(students);
+    protected void onPostExecute(Long result) {
+        super.onPostExecute(result);
+//        if(result == -1){
+////            Toast.makeText(mContext, error, Toast.LENGTH_SHORT).show();
+//            return;
+//        }
+//        mListener.postAsyncTaskExecution(mOperation);
+//        //TODO: below code in mainActiity;
+//        if (mOperation.equals("readAll")) {
+//            mRecyclerAdapter.setListInRecycler(mStudentList);
+//            mRecyclerAdapter.notifyDataSetChanged();
+//        }
     }
 
-    @Override
-    protected void onPostExecute(Void aVoid) {
-        super.onPostExecute(aVoid);
-        if (mOperation.equals("readAll")) {
-            mRecyclerAdapter.setListInRecycler(mStudentList);
-            mRecyclerAdapter.notifyDataSetChanged();
-        }
+    public interface AsyncTaskInterface {
+        void postAsyncTaskExecution(String operation);
     }
 }

@@ -10,6 +10,7 @@ import com.bhimanshukalra.studentmanagementdb.models.Student;
 
 import java.util.ArrayList;
 
+import static com.bhimanshukalra.studentmanagementdb.constants.Constants.EMPTY_STRING;
 import static com.bhimanshukalra.studentmanagementdb.constants.Constants.TABLE_STUDENT;
 
 public class DatabaseHandler extends SQLiteOpenHelper {
@@ -26,7 +27,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String createContactsTable = "CREATE TABLE " + TABLE_STUDENT + "(" +
-                KEY_ROLL_NUMBER + " INTEGER, " + KEY_NAME + " TEXT, " +
+                KEY_ROLL_NUMBER + " INTEGER PRIMARY KEY, " + KEY_NAME + " TEXT, " +
                 KEY_CLASS + " TEXT)";
         /**
          * TODO: PRIMARY KEY,
@@ -41,19 +42,19 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void addStudent(Student student) {
-//        log("addStudent");
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(KEY_NAME, student.getStudentName());
-        contentValues.put(KEY_CLASS, student.getClassName());
-        contentValues.put(KEY_ROLL_NUMBER, student.getRollNumber());
-        db.insert(TABLE_STUDENT, null, contentValues);
-        db.close();
-//        ArrayList<Student> arrayList = new ArrayList<>();
-//        getAllStudents(arrayList);
-//        for (Student student1 : arrayList)
-//            log("dbHelper1: " + student1.getStudentName() + " " + student1.getClassName() + " " + student1.getRollNumber());
+    public String addStudent(Student student) {
+        try {
+            SQLiteDatabase db = this.getWritableDatabase();
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(KEY_NAME, student.getStudentName());
+            contentValues.put(KEY_CLASS, student.getClassName());
+            contentValues.put(KEY_ROLL_NUMBER, student.getRollNumber());
+            db.insertOrThrow(TABLE_STUDENT, null, contentValues);
+            db.close();
+        } catch (Exception exception) {
+            return exception.toString();
+        }
+        return EMPTY_STRING;
     }
 
     public Student getStudent(int rollNumber) {
@@ -86,21 +87,26 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
         cursor.close();
+        db.close();
     }
 
-    public int updateStudent(Student student) {
+    public long updateStudent(Student student) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(KEY_NAME, student.getStudentName());
         contentValues.put(KEY_CLASS, student.getClassName());
-        return db.update(TABLE_STUDENT, contentValues, KEY_ROLL_NUMBER + "=?",
+        long result = db.update(TABLE_STUDENT, contentValues, KEY_ROLL_NUMBER + "=?",
                 new String[]{String.valueOf(student.getRollNumber())});
+        db.close();
+        return result;
     }
 
-    public void deleteStudent(int rollNumber) {
+    public long deleteStudent(int rollNumber) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_STUDENT, KEY_ROLL_NUMBER + "=?",
+        long result = db.delete(TABLE_STUDENT, KEY_ROLL_NUMBER + "=?",
                 new String[]{String.valueOf(rollNumber)});
+        db.close();
+        return result;
     }
 
     public int getStudentCount() {

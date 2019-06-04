@@ -25,4 +25,10 @@ public class Constants {
     public static final String SERVICE_STUDENT = "com.bhimanshukalra.studentmanagementdb.SERVICE_STUDENT";
     public static final String INTENT_SERVICE_MSG = "com.bhimanshukalra.studentmanagementdb.INTENT_SERVICE_MSG";
     public static final String INTENT_SERVICE_STUDENT = "com.bhimanshukalra.studentmanagementdb.INTENT_SERVICE_STUDENT";
+    public static final String BROADCAST_UDATE_UI = "com.bhimanshukalra.studentmanagementdb.UPDATE_UI";
+    public static final String TAB_TWO_EDIT_TITLE = "Edit Student";
+    public static final String TAB_TWO_ADD_TITLE = "Add Student";
+    public static boolean DB_ERROR = false;
+    public static final String DB_ERROR_MSG = "Db Error.";
+    public static final String OPERATION = "operation";
 }

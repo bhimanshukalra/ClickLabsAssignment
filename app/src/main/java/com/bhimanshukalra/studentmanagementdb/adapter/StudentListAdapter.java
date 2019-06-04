@@ -21,13 +21,6 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
         mStudentList = studentList;
     }
 
-    public void addStudent(Student student){
-        if(mStudentList == null){
-            mStudentList = new ArrayList<>();
-        }
-        mStudentList.add(student);
-    }
-
     public void setInstance(StudentListInterface studentListInterface){
         mStudentListInterface = studentListInterface;
     }

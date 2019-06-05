@@ -1,19 +1,16 @@
 package com.bhimanshukalra.studentmanagementdb.activities;
 
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 
 import com.bhimanshukalra.studentmanagementdb.R;
 import com.bhimanshukalra.studentmanagementdb.adapter.HomePageAdapter;
@@ -25,36 +22,35 @@ import com.bhimanshukalra.studentmanagementdb.models.Student;
 
 import java.util.ArrayList;
 
-import static com.bhimanshukalra.studentmanagementdb.constants.Constants.ASYNCTASK;
+import static com.bhimanshukalra.studentmanagementdb.constants.Constants.ASYNC_TASK;
 import static com.bhimanshukalra.studentmanagementdb.constants.Constants.BACKGROUND_TASK_HANDLER;
+import static com.bhimanshukalra.studentmanagementdb.constants.Constants.BG_HANDLER_PREF_KEY;
 import static com.bhimanshukalra.studentmanagementdb.constants.Constants.BROADCAST_UDATE_UI;
 import static com.bhimanshukalra.studentmanagementdb.constants.Constants.CREATE_OPERATION;
 import static com.bhimanshukalra.studentmanagementdb.constants.Constants.DELETE_OPERATION;
 import static com.bhimanshukalra.studentmanagementdb.constants.Constants.FORM_TAB;
+import static com.bhimanshukalra.studentmanagementdb.constants.Constants.HOME_APP_BAR_TITLE;
 import static com.bhimanshukalra.studentmanagementdb.constants.Constants.INTENT_SERVICE;
 import static com.bhimanshukalra.studentmanagementdb.constants.Constants.LIST_TAB;
 import static com.bhimanshukalra.studentmanagementdb.constants.Constants.OPERATION;
+import static com.bhimanshukalra.studentmanagementdb.constants.Constants.PREF_KEY;
+import static com.bhimanshukalra.studentmanagementdb.constants.Constants.READ_ALL_OPERATION;
 import static com.bhimanshukalra.studentmanagementdb.constants.Constants.SERVICE;
+import static com.bhimanshukalra.studentmanagementdb.constants.Constants.STUDENT_LIST;
+import static com.bhimanshukalra.studentmanagementdb.constants.Constants.TAB_ONE_TITLE;
 import static com.bhimanshukalra.studentmanagementdb.constants.Constants.TAB_TWO_ADD_TITLE;
 import static com.bhimanshukalra.studentmanagementdb.constants.Constants.TAB_TWO_EDIT_TITLE;
 import static com.bhimanshukalra.studentmanagementdb.constants.Constants.UPDATE_OPERATION;
 import static com.bhimanshukalra.studentmanagementdb.constants.Constants.UPDATION_IN_LIST;
-import static com.bhimanshukalra.studentmanagementdb.utilities.Util.log;
 
-public class HomeActivity extends AppCompatActivity implements FormFragment.FormInterface,
-        ListFragment.ListFragmentInterface, MyAsyncTask.AsyncTaskInterface {
-    //, MyService.ServiceInterface
+/**
+ * The HomePage activity.
+ */
+public class HomeActivity extends AppCompatActivity implements ListFragment.ListFragmentInterface,
+        MyAsyncTask.AsyncTaskInterface {
     private ViewPager mViewPager;
     private ArrayList<FragmentList> fragmentList;
-    PostDbOperation postDbOperation;
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (postDbOperation != null) {
-            unregisterReceiver(postDbOperation);
-        }
-    }
+    private MyBroadcastReceiver mMyBroadcastReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,23 +59,25 @@ public class HomeActivity extends AppCompatActivity implements FormFragment.Form
         init();
     }
 
+    /**
+     * The initialization function.
+     */
     private void init() {
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle("Home");
+            getSupportActionBar().setTitle(HOME_APP_BAR_TITLE);
         }
-
         new MyAsyncTask(this);
-//        MyService myService = new MyService();
-//        myService.setInstance(this);
-
         initViewPager();
         initBroadcastReceiver();
     }
 
+    /**
+     * Initialize broadcast receiver for service and intent service.
+     */
     private void initBroadcastReceiver() {
-        postDbOperation = new PostDbOperation();
+        mMyBroadcastReceiver = new MyBroadcastReceiver();
         IntentFilter intentFilter = new IntentFilter(BROADCAST_UDATE_UI);
-        registerReceiver(postDbOperation, intentFilter);
+        registerReceiver(mMyBroadcastReceiver, intentFilter);
     }
 
     @Override
@@ -90,12 +88,9 @@ public class HomeActivity extends AppCompatActivity implements FormFragment.Form
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        /**
-         * TODO: Implement sharedPreferences
-         */
-        switch (item.getItemId()){
-            case R.id.home_menu_item_asynctask:
-                BACKGROUND_TASK_HANDLER = ASYNCTASK;
+        switch (item.getItemId()) {
+            case R.id.home_menu_item_async_task:
+                BACKGROUND_TASK_HANDLER = ASYNC_TASK;
                 break;
             case R.id.home_menu_item_service:
                 BACKGROUND_TASK_HANDLER = SERVICE;
@@ -104,20 +99,28 @@ public class HomeActivity extends AppCompatActivity implements FormFragment.Form
                 BACKGROUND_TASK_HANDLER = INTENT_SERVICE;
                 break;
         }
+        //Set the chosen background task holder in shared preferences to enable usage of the same after app restart.
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(PREF_KEY, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(BG_HANDLER_PREF_KEY, BACKGROUND_TASK_HANDLER).apply();
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Initialize fragmentList with fragment references and titles.
+     */
     private void initFragmentList() {
         fragmentList = new ArrayList<>();
         ListFragment listFragment = new ListFragment();
         listFragment.setInstance(this);
-        FormFragment formFragment = new FormFragment();
-        formFragment.setInstance(this);
 
-        fragmentList.add(new FragmentList(getString(R.string.list_tab_title), listFragment));
-        fragmentList.add(new FragmentList(getString(R.string.form_tab_tab_add_student), formFragment));
+        fragmentList.add(new FragmentList(TAB_ONE_TITLE, listFragment));
+        fragmentList.add(new FragmentList(TAB_TWO_ADD_TITLE, new FormFragment()));
     }
 
+    /**
+     * Initialize ViewPager and TabLayout.
+     */
     private void initViewPager() {
         initFragmentList();
         mViewPager = findViewById(R.id.activity_home_view_pager);
@@ -128,16 +131,13 @@ public class HomeActivity extends AppCompatActivity implements FormFragment.Form
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 if (tab.getPosition() == LIST_TAB) {
+                    //fetch student list from db only if any changes were made.
                     if (UPDATION_IN_LIST) {
-                        log("UPDATION_IN_LIST");
                         updateList();
                         UPDATION_IN_LIST = false;
-                    } else {
-                        log("NO updation in list");
-                        //Add button is not clicked in the second i.e. 'Add student' fragment, then hide the keyboard.
-//                        hideKeyboard(HomeActivity.this);
                     }
                 } else if (tab.getPosition() == FORM_TAB) {
+                    //Clear all EditTexts and set btn text as "Add", when form fragment is opened.
                     FormFragment formFragment = (FormFragment) fragmentList.get(FORM_TAB).getFragment();
                     formFragment.initBtn();
                     formFragment.clearAllEditTexts();
@@ -146,7 +146,8 @@ public class HomeActivity extends AppCompatActivity implements FormFragment.Form
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-                if (tab.getText().equals(TAB_TWO_EDIT_TITLE)) {
+                if (tab.getText() != null && tab.getText().equals(TAB_TWO_EDIT_TITLE)) {
+                    //If form tab's title is "Edit Student" then switch it back to "Add student".
                     tab.setText(TAB_TWO_ADD_TITLE);
                 }
             }
@@ -157,41 +158,38 @@ public class HomeActivity extends AppCompatActivity implements FormFragment.Form
         });
     }
 
+    /**
+     * Fetch the updated list from db.
+     */
     public void updateList() {
         ListFragment listFragment = (ListFragment) fragmentList.get(LIST_TAB).getFragment();
         listFragment.fetchDataFromDb();
     }
+
+    /**
+     * Initialize the HopePageAdapter(ViewPager Adapter) and set it to the recyclerView.
+     */
     private void setAdapterForViewPager() {
         HomePageAdapter homePageAdapter = new HomePageAdapter(getSupportFragmentManager(), fragmentList);
         mViewPager.setAdapter(homePageAdapter);
     }
 
-    public void hideKeyboard(Activity activity) {
-        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
-        //Find the currently focused view, so we can grab the correct window token from it.
-        View view = activity.getCurrentFocus();
-        //If no view currently has focus, create a new one, just so we can grab a window token from it
-        if (view == null) {
-            view = new View(activity);
-        }
-        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-    }
-
-    //FormFragment interface function.
-    @Override
-    public void showKeyboard(EditText etName) {
-//        log("showKeyboard");
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
-    }
-
-    @Override
+    /**
+     * Switch to tab passed as parameter.
+     *
+     * @param tabNum the tab number to switched to. It can be LIST_TAB(0) or FORM_TAB(1).
+     */
     public void switchToTab(int tabNum) {
         mViewPager.setCurrentItem(tabNum);
     }
 
+    /**
+     * Change the second tab's title to "Edit Student", then switch to it and set student's data in the EditTexts.
+     *
+     * @param student the student whose details have to be modified.
+     */
     @Override
-    public void editStudentDetails(int position, Student student) {
+    public void editStudentDetails(Student student) {
         fragmentList.get(FORM_TAB).setTitle(TAB_TWO_EDIT_TITLE);
         setAdapterForViewPager();
         mViewPager.setCurrentItem(FORM_TAB);
@@ -199,30 +197,68 @@ public class HomeActivity extends AppCompatActivity implements FormFragment.Form
         formFragment.setStudentData(student);
     }
 
+    /**
+     * The "Add student" button of list fragment is clicked. Simply the second fragment is switched.
+     */
     @Override
-    public void postAsyncTaskExecution(String operation) {
-        postDbChanges(operation);
+    public void addStudentClicked() {
+        mViewPager.setCurrentItem(FORM_TAB);
     }
 
-    private void postDbChanges(String operation) {
+    /**
+     * The function is called after the db operations have taken place in AsyncTask.
+     *
+     * @param operation   this is one of the CRUD operations.
+     * @param studentList the student list for use in read operation.
+     */
+    @Override
+    public void postAsyncTaskExecution(String operation, ArrayList<Student> studentList) {
+        postDbChanges(operation, studentList);
+    }
+
+    /**
+     * After db operations have been completed. This function is called. According to the operation, further code is implemented.
+     *
+     * @param operation   the operation performed, it will be one of the CRUD operations.
+     * @param studentList the student list to be used in read operation.
+     */
+    private void postDbChanges(String operation, ArrayList<Student> studentList) {
+        ListFragment listFragment = (ListFragment) fragmentList.get(LIST_TAB).getFragment();
+        if (operation.equals(READ_ALL_OPERATION)) {
+            //This studentList is up to date from db and is sent to the ListFragment, to display to the user.
+            listFragment.updateList(studentList);
+        }
         if (operation.equals(CREATE_OPERATION) || operation.equals(UPDATE_OPERATION)) {
+            //For create or update operation simply switch back to ListFragment.
             switchToTab(LIST_TAB);
         } else if (operation.equals(DELETE_OPERATION)) {
-            ListFragment listFragment = (ListFragment) fragmentList.get(LIST_TAB).getFragment();
+            //If a student is deleted from the list, fetch updated list from db.
             listFragment.fetchDataFromDb();
         }
     }
 
-    public class PostDbOperation extends BroadcastReceiver {
-        public PostDbOperation() {
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mMyBroadcastReceiver != null) {
+            unregisterReceiver(mMyBroadcastReceiver);
+        }
+    }
+
+    /**
+     * This class receives broadcast from Service and IntentService, once the db operations have been performed.
+     */
+    public class MyBroadcastReceiver extends BroadcastReceiver {
+        public MyBroadcastReceiver() {
         }
 
         @Override
         public void onReceive(Context context, Intent intent) {
+            //Operation is one of the CRUD operation.
             String operation = intent.getStringExtra(OPERATION);
-            postDbChanges(operation);
+            ArrayList<Student> studentList = intent.getParcelableArrayListExtra(STUDENT_LIST);
+            postDbChanges(operation, studentList);
         }
     }
-
 
 }

@@ -18,7 +18,7 @@
     <string name="form_tab_tab_add_student">Add Student</string>
     <string name="update_form_btn_text">Update</string>
     <string name="home_label">Home</string>
-    <string name="menu_item_asynctask">AsyncTask</string>
+    <string name="menu_item_async_task">AsyncTask</string>
     <string name="menu_item_service">Service</string>
     <string name="home_menu_item_intent_service">Intent Service</string>
 </resources>

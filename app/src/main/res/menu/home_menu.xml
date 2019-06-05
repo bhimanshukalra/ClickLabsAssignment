@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="@string/menu_item_asynctask"
-        android:id="@+id/home_menu_item_asynctask"/>
+    <item
+        android:id="@+id/home_menu_item_async_task"
+        android:title="@string/menu_item_async_task" />
     <item android:title="@string/menu_item_service"
         android:id="@+id/home_menu_item_service"/>
     <item android:title="@string/home_menu_item_intent_service"

@@ -13,14 +13,27 @@ import com.bhimanshukalra.studentmanagementdb.models.Student;
 
 import java.util.ArrayList;
 
+/**
+ * The Student list adapter (RecyclerView adapter).
+ */
 public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.RecyclerViewHolder> {
     private StudentListInterface mStudentListInterface;
     private ArrayList<Student> mStudentList;
 
+    /**
+     * Set list in recycler.
+     *
+     * @param studentList the student list to be set in recyclerView
+     */
     public void setListInRecycler(ArrayList<Student> studentList){
         mStudentList = studentList;
     }
 
+    /**
+     * Set instance for interface.
+     *
+     * @param studentListInterface the student list interface
+     */
     public void setInstance(StudentListInterface studentListInterface){
         mStudentListInterface = studentListInterface;
     }
@@ -34,53 +47,60 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull StudentListAdapter.RecyclerViewHolder recyclerViewHolder, int position) {
-        /**
-         * TODO: view mapping
-         */
         recyclerViewHolder.mTvName.setText(mStudentList.get(position).getStudentName());
         recyclerViewHolder.mTvClass.setText(mStudentList.get(position).getClassName());
         recyclerViewHolder.mTvRollNum.setText(String.valueOf(mStudentList.get(position).getRollNumber()));
     }
 
-    public class RecyclerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    @Override
+    public int getItemCount() {
+        if (mStudentList != null) {
+            return mStudentList.size();
+        } else {
+            return 0;
+        }
+    }
+
+    /**
+     * The interface Student list interface.
+     */
+    public interface StudentListInterface {
+        /**
+         * When a list item is clicked this function is called.
+         *
+         * @param student  the student on which user tapped.
+         * @param position the position of student in the list.
+         */
+        void listItemClicked(Student student, int position);
+    }
+
+    /**
+     * The Recycler view holder.
+     */
+    public class RecyclerViewHolder extends RecyclerView.ViewHolder {
         private TextView mTvName;
         private TextView mTvClass;
         private TextView mTvRollNum;
 
+        /**
+         * Instantiates a new Recycler view holder.
+         *
+         * @param linearLayout the ViewGroup linear layout
+         */
         public RecyclerViewHolder(@NonNull LinearLayout linearLayout) {
             super(linearLayout);
             mTvName = linearLayout.findViewById(R.id.item_student_tv_name);
             mTvClass = linearLayout.findViewById(R.id.item_student_tv_class);
             mTvRollNum = linearLayout.findViewById(R.id.item_student_tv_roll_num);
-            linearLayout.findViewById(R.id.item_student_tv_edit).setOnClickListener(this);
-            linearLayout.findViewById(R.id.item_student_tv_delete).setOnClickListener(this);
+            linearLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //When a list it is clicked this is called.
+                    mStudentListInterface.listItemClicked(mStudentList.get(getAdapterPosition()), getAdapterPosition());
+                }
+            });
         }
 
-        @Override
-        public void onClick(View view) {
-            switch (view.getId()){
-                case R.id.item_student_tv_edit:
-                    mStudentListInterface.editClicked(getAdapterPosition(), mStudentList.get(getAdapterPosition()));
-                    break;
-                case R.id.item_student_tv_delete:
-                    mStudentListInterface.deleteClicked(getAdapterPosition(), mStudentList.get(getAdapterPosition()));
-                    break;
-            }
-        }
-    }
-
-    @Override
-    public int getItemCount() {
-        if(mStudentList != null) {
-            return mStudentList.size();
-        }else{
-            return 0;
-        }
-    }
-
-    public interface StudentListInterface{
-        void editClicked(int position, Student student);
-        void deleteClicked(int position, Student student);
     }
 
 }

@@ -10,16 +10,26 @@ import com.bhimanshukalra.studentmanagementdb.models.Student;
 
 import java.util.ArrayList;
 
+import static com.bhimanshukalra.studentmanagementdb.constants.Constants.DB_SQ_LITE_UNIQUE_CONTRAINT_ERROR;
+import static com.bhimanshukalra.studentmanagementdb.constants.Constants.DB_UNIQUE_CONTRAINT_ERROR_MSG;
 import static com.bhimanshukalra.studentmanagementdb.constants.Constants.EMPTY_STRING;
 import static com.bhimanshukalra.studentmanagementdb.constants.Constants.TABLE_STUDENT;
 
+/**
+ * The type Database handler.
+ */
 public class DatabaseHandler extends SQLiteOpenHelper {
-    public static final int DATABASE_VERSION = 1;
-    public static final String DATABASE_NAME = "studentManager";
-    public static final String KEY_ROLL_NUMBER = "roll_number";
-    public static final String KEY_NAME = "name";
-    public static final String KEY_CLASS = "class";
+    private static final int DATABASE_VERSION = 1;
+    private static final String DATABASE_NAME = "studentManager";
+    private static final String KEY_ROLL_NUMBER = "roll_number";
+    private static final String KEY_NAME = "name";
+    private static final String KEY_CLASS = "class";
 
+    /**
+     * Instantiates a new Database handler.
+     *
+     * @param context the context
+     */
     public DatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -29,10 +39,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         String createContactsTable = "CREATE TABLE " + TABLE_STUDENT + "(" +
                 KEY_ROLL_NUMBER + " INTEGER PRIMARY KEY, " + KEY_NAME + " TEXT, " +
                 KEY_CLASS + " TEXT)";
-        /**
-         * TODO: PRIMARY KEY,
-         */
-//        log(createContactsTable);
         db.execSQL(createContactsTable);
     }
 
@@ -42,6 +48,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    /**
+     * Add new student to db.
+     *
+     * @param student the student to be added.
+     * @return if an error occurred, then error else empty string.
+     */
     public String addStudent(Student student) {
         try {
             SQLiteDatabase db = this.getWritableDatabase();
@@ -52,27 +64,23 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             db.insertOrThrow(TABLE_STUDENT, null, contentValues);
             db.close();
         } catch (Exception exception) {
-            return exception.toString();
+            String response = exception.toString();
+            if (response.equals(DB_SQ_LITE_UNIQUE_CONTRAINT_ERROR)) {
+                response = DB_UNIQUE_CONTRAINT_ERROR_MSG;
+            }
+            return response;
         }
         return EMPTY_STRING;
     }
 
-    public Student getStudent(int rollNumber) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(TABLE_STUDENT, new String[]{KEY_ROLL_NUMBER, KEY_NAME,
-                        KEY_CLASS}, KEY_ROLL_NUMBER + "=?", new String[]{String.valueOf(rollNumber)},
-                null, null, null, null);
-        if (cursor != null) {
-            cursor.moveToFirst();
-            Student student = new Student(cursor.getString(0),
-                    cursor.getString(1), Integer.parseInt(cursor.getString(2)));
-            cursor.close();
-            return student;
-        }
-        return null;
-    }
 
-    public void getAllStudents(ArrayList<Student> studentList) {
+    /**
+     * Get list of all students.
+     *
+     * @return the ArrayList of all students.
+     */
+    public ArrayList<Student> getAllStudents() {
+        ArrayList<Student> studentList = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + TABLE_STUDENT;
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -83,13 +91,19 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 student.setStudentName(cursor.getString(1));
                 student.setClassName(cursor.getString(2));
                 studentList.add(student);
-//                log("dbHelper1: " + student.getStudentName() + " " + student.getClassName() + " " + student.getRollNumber());
             } while (cursor.moveToNext());
         }
         cursor.close();
         db.close();
+        return studentList;
     }
 
+    /**
+     * Update student details.
+     *
+     * @param student the student whose details have to be updated.
+     * @return if an error occurred then -1 is returned.
+     */
     public long updateStudent(Student student) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -101,6 +115,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return result;
     }
 
+    /**
+     * Delete student details from db.
+     *
+     * @param rollNumber the roll number of student whose details have to be deleted.
+     * @return if an error occurred then -1 is returned.
+     */
     public long deleteStudent(int rollNumber) {
         SQLiteDatabase db = this.getWritableDatabase();
         long result = db.delete(TABLE_STUDENT, KEY_ROLL_NUMBER + "=?",
@@ -108,14 +128,5 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.close();
         return result;
     }
-
-    public int getStudentCount() {
-        String countQuery = "SELECT * FROM " + TABLE_STUDENT;
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(countQuery, null);
-        cursor.close();
-        return cursor.getCount();
-    }
-
 
 }

@@ -8,64 +8,74 @@ import android.widget.Toast;
 import com.bhimanshukalra.studentmanagementdb.database.DatabaseHandler;
 import com.bhimanshukalra.studentmanagementdb.models.Student;
 
+import java.util.ArrayList;
+
 import static com.bhimanshukalra.studentmanagementdb.constants.Constants.CREATE_OPERATION;
 import static com.bhimanshukalra.studentmanagementdb.constants.Constants.DB_ERROR_MSG;
 import static com.bhimanshukalra.studentmanagementdb.constants.Constants.DELETE_OPERATION;
+import static com.bhimanshukalra.studentmanagementdb.constants.Constants.EMPTY_STRING;
 import static com.bhimanshukalra.studentmanagementdb.constants.Constants.INTENT_SERVICE_MSG;
 import static com.bhimanshukalra.studentmanagementdb.constants.Constants.INTENT_SERVICE_STUDENT;
+import static com.bhimanshukalra.studentmanagementdb.constants.Constants.READ_ALL_OPERATION;
 import static com.bhimanshukalra.studentmanagementdb.constants.Constants.UPDATE_OPERATION;
-import static com.bhimanshukalra.studentmanagementdb.utilities.Util.log;
 import static com.bhimanshukalra.studentmanagementdb.utilities.Util.broadcastPostDbOperations;
 
 
+/**
+ * The My intent service for database operations.
+ */
 public class MyIntentService extends IntentService {
 
+    /**
+     * Instantiates a new My intent service.
+     */
     public MyIntentService() {
         super("MyIntentService");
     }
 
     @Override
-    protected void onHandleIntent(@Nullable Intent intent) {
-        log("MyIntentService");
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        // Intent contains the db operation to be performed, and the student on whom the operation has to performed.
         String operation = intent.getStringExtra(INTENT_SERVICE_MSG);
         Student student = intent.getParcelableExtra(INTENT_SERVICE_STUDENT);
-        DatabaseHandler mDb = new DatabaseHandler(this);
 
-
+        DatabaseHandler db = new DatabaseHandler(this);
+        ArrayList<Student> studentList = new ArrayList<>();
         long result = -1;
         String error = DB_ERROR_MSG;
         switch (operation) {
             case CREATE_OPERATION:
-                error = mDb.addStudent(student);
-                log(error);
-                result = 1;
+                String response = db.addStudent(student);
+                if (response.equals(EMPTY_STRING)) {
+                    result = 1;
+                } else {
+                    error = response;
+                }
                 break;
             case UPDATE_OPERATION:
-                result = mDb.updateStudent(student);
+                result = db.updateStudent(student);
                 break;
-            //TODO: ReadAll operation
+            case READ_ALL_OPERATION:
+                studentList = db.getAllStudents();
+                result = 1;
+                break;
             case DELETE_OPERATION:
-                result = mDb.deleteStudent(student.getRollNumber());
+                result = db.deleteStudent(student.getRollNumber());
                 break;
         }
 
         if (result == -1) {
-            log("result = -1");
-//            if(!(operation.equals(CREATE_OPERATION))) {
-            Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
-//            }
+            //An error has occurred.
+            Toast.makeText(getApplicationContext(), error, Toast.LENGTH_SHORT).show();
         } else {
-            broadcastPostDbOperations(this, operation);
+            //Task completed successfully, now do necessary changes in the recyclerView list.
+            broadcastPostDbOperations(this, operation, studentList);
         }
+        return START_NOT_STICKY;
     }
 
-//    public void broadcastPostDbOperations(Context context){
-//        log("receiveBroadcastPostDbOperations");
-////        Intent intent=new Intent(context, HomeActivity.PostDbOperation.class);
-////        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-////        context.sendBroadcast(intent);
-//        Intent intent = new Intent(BROADCAST_UDATE_UI);
-//        sendBroadcast(intent);
-//    }
+    @Override
+    protected void onHandleIntent(@Nullable Intent intent) {
+    }
 }
 

@@ -9,8 +9,18 @@ import com.bhimanshukalra.studentmanagementdb.models.FragmentList;
 
 import java.util.ArrayList;
 
+/**
+ * The Home page adapter (ViewPager adapter).
+ */
 public class HomePageAdapter extends FragmentStatePagerAdapter {
     private ArrayList<FragmentList> mFragmentList;
+
+    /**
+     * Instantiates a new Home page adapter.
+     *
+     * @param fragmentManager the fragment manager
+     * @param fragmentList    the fragment list containing reference to fragments and there titles.
+     */
     public HomePageAdapter(FragmentManager fragmentManager, ArrayList<FragmentList> fragmentList) {
         super(fragmentManager);
         mFragmentList = fragmentList;

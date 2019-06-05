@@ -1,84 +1,101 @@
 package com.bhimanshukalra.studentmanagementdb.backgroundTasks;
 
 import android.content.Context;
+import android.widget.Toast;
 
-import com.bhimanshukalra.studentmanagementdb.adapter.StudentListAdapter;
 import com.bhimanshukalra.studentmanagementdb.database.DatabaseHandler;
 import com.bhimanshukalra.studentmanagementdb.models.Student;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
+import static com.bhimanshukalra.studentmanagementdb.constants.Constants.CREATE_OPERATION;
 import static com.bhimanshukalra.studentmanagementdb.constants.Constants.DB_ERROR_MSG;
-import static com.bhimanshukalra.studentmanagementdb.utilities.Util.log;
+import static com.bhimanshukalra.studentmanagementdb.constants.Constants.DELETE_OPERATION;
+import static com.bhimanshukalra.studentmanagementdb.constants.Constants.EMPTY_STRING;
+import static com.bhimanshukalra.studentmanagementdb.constants.Constants.READ_ALL_OPERATION;
+import static com.bhimanshukalra.studentmanagementdb.constants.Constants.UPDATE_OPERATION;
 
+/**
+ * The My async task for database operations.
+ */
 public class MyAsyncTask extends android.os.AsyncTask<Student, Student, Long> {
-    private DatabaseHandler mDb;
     private ArrayList<Student> mStudentList;
     private String mOperation;
-    private StudentListAdapter mRecyclerAdapter;
-    //    private Context mContext;
+    private WeakReference<Context> weakReference;
     private static AsyncTaskInterface mListener;
-    private String error = DB_ERROR_MSG;
+    private String error;
 
+    /**
+     * Instantiates a new My async task to fetch reference for interface.
+     *
+     * @param listener the interface listener
+     */
     public MyAsyncTask(AsyncTaskInterface listener) {
         mListener = listener;
     }
 
-    public MyAsyncTask(String operation, Context context, StudentListAdapter recyclerAdapter) {
-        log("MyAsyncTask");
-//        mOperation = operation;
-//        mDb = new DatabaseHandler(context);
-//        if (recyclerAdapter != null) {
-//            mRecyclerAdapter = recyclerAdapter;
-//        }
-        //TODO: recyclerView in post execute, don't take it as a parameter.
-    }
-
-    @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
+    /**
+     * Instantiates a new My async task for db operations.
+     *
+     * @param operation the operation is one of the CRUD operations.
+     * @param context   the context is for displaying toast if any error occurs.
+     */
+    public MyAsyncTask(String operation, Context context) {
+        mOperation = operation;
+        weakReference = new WeakReference<>(context);
     }
 
     @Override
     protected Long doInBackground(Student... students) {
+        DatabaseHandler db = new DatabaseHandler(weakReference.get());
         long result = -1;
-
-//        switch (mOperation) {
-//            case CREATE_OPERATION:
-//                error = mDb.addStudent(students[0]);
-//                result = 1;
-//                break;
-//            case UPDATE_OPERATION:
-//                result = mDb.updateStudent(students[0]);
-//                break;
-//            case READ_ALL_OPERATION:
-//                mStudentList = new ArrayList<>();
-//                mDb.getAllStudents(mStudentList);
-//                result = 1;
-//                break;
-//            case DELETE_OPERATION:
-//                result = mDb.deleteStudent(students[0].getRollNumber());
-//                break;
-//        }
+        error = DB_ERROR_MSG;
+        switch (mOperation) {
+            case CREATE_OPERATION:
+                String response = db.addStudent(students[0]);
+                if (response.equals(EMPTY_STRING)) {
+                    result = 1;
+                } else {
+                    error = response;
+                }
+                break;
+            case UPDATE_OPERATION:
+                result = db.updateStudent(students[0]);
+                break;
+            case DELETE_OPERATION:
+                result = db.deleteStudent(students[0].getRollNumber());
+                break;
+            case READ_ALL_OPERATION:
+                mStudentList = db.getAllStudents();
+                result = 1;
+                break;
+        }
         return result;
     }
 
     @Override
     protected void onPostExecute(Long result) {
         super.onPostExecute(result);
-//        if(result == -1){
-////            Toast.makeText(mContext, error, Toast.LENGTH_SHORT).show();
-//            return;
-//        }
-//        mListener.postAsyncTaskExecution(mOperation);
-//        //TODO: below code in mainActiity;
-//        if (mOperation.equals("readAll")) {
-//            mRecyclerAdapter.setListInRecycler(mStudentList);
-//            mRecyclerAdapter.notifyDataSetChanged();
-//        }
+        if (result == -1) {
+            //An error has occurred.
+            Toast.makeText(weakReference.get(), error, Toast.LENGTH_SHORT).show();
+        } else {
+            //Task completed successfully, now do necessary changes in the recyclerView list.
+            mListener.postAsyncTaskExecution(mOperation, mStudentList);
+        }
     }
 
+    /**
+     * The interface Async task interface.
+     */
     public interface AsyncTaskInterface {
-        void postAsyncTaskExecution(String operation);
+        /**
+         * Post async task execution.
+         *
+         * @param operation   one of the CRUD operation
+         * @param studentList the student list for read operations usage
+         */
+        void postAsyncTaskExecution(String operation, ArrayList<Student> studentList);
     }
 }

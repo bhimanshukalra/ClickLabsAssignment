@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">RetrofitAssignment</string>
+    <string name="activity_main_img_content_desc">User image</string>
+    <string name="tv_name_label">Name</string>
+    <string name="tv_email_label">E-mail</string>
+    <string name="tv_roll_num_label">Roll number</string>
+    <string name="activity_main_btn_show_post">Show Posts</string>
+    <string name="activity_main_btn_show_details">Show details</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

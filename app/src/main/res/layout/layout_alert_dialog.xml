@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/backgroundColor"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="@dimen/standard_spacing"
+        tools:context=".activities.HomeActivity">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/activity_main_img_content_desc"
+            android:src="@drawable/user" />
+
+        <TextView
+            android:id="@+id/layout_alert_dialog_tv_primary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/lightTextColor"
+            android:textSize="@dimen/standard_text_size"
+            tools:text="User details here" />
+
+        <Button
+            android:id="@+id/layout_alert_dialog_btn_primary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_secondary"
+            android:padding="@dimen/small_spacing"
+            android:text="@string/alert_dialog_btn" />
+
+    </LinearLayout>
+</ScrollView>

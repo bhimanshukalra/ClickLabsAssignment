@@ -5,8 +5,13 @@
     <string name="tv_email_label">E-mail</string>
     <string name="tv_roll_num_label">Roll number</string>
     <string name="activity_main_btn_show_post">Show Posts</string>
-    <string name="activity_main_btn_show_details">Show details</string>
+    <string name="activity_main_btn_show_details">More details</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="tv_user_id_label"><u>User id</u>:</string>
+    <string name="tv_id_label"><u>Id</u>:</string>
+    <string name="tv_title_label"><u>Title</u>:</string>
+    <string name="tv_body_label"><u>Body</u>:</string>
+    <string name="alert_dialog_btn">Done</string>
 </resources>

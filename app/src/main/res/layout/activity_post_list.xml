@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/backgroundColor"
     tools:context=".activities.HomeActivity">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:id="@+id/list_layout_card_view_user_details"
-        android:padding="@dimen/small_spacing"
-        android:visibility="gone"
+        android:id="@+id/activity_post_list_user_details"
+        android:layout_margin="@dimen/small_spacing"
         android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/tileColor"
             android:gravity="center"
+            android:padding="@dimen/small_spacing"
             android:orientation="vertical">
 
             <ImageView
@@ -27,19 +28,19 @@
                 android:src="@drawable/user" />
 
             <TextView
-                android:id="@+id/list_layout_card_view_tv_roll_num"
+                android:id="@+id/activity_post_list_tv_roll_num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/tv_roll_num_label" />
 
             <TextView
-                android:id="@+id/list_layout_card_view_tv_name"
+                android:id="@+id/activity_post_list_tv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/tv_name_label" />
 
             <TextView
-                android:id="@+id/list_layout_card_view_tv_email"
+                android:id="@+id/activity_post_list_tv_email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/tv_email_label" />
@@ -48,61 +49,15 @@
     </android.support.v7.widget.CardView>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/list_layout_recycler_view"
+        android:id="@+id/activity_post_list_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
 
-    <ScrollView
-        android:layout_width="match_parent"
+    <ProgressBar
+        android:id="@+id/activity_post_list_progress_bar"
         android:layout_weight="1"
-        android:fillViewport="true"
-        android:id="@+id/list_layout_scroll_view"
-        android:layout_height="0dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/activity_main_img_content_desc"
-                android:src="@drawable/user" />
-
-            <TextView
-                android:id="@+id/list_layout_tv_roll_num"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/tv_roll_num_label" />
-
-            <TextView
-                android:id="@+id/list_layout_tv_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/tv_name_label" />
-
-            <TextView
-                android:id="@+id/list_layout_tv_email"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/tv_email_label" />
-
-            <Button
-                android:id="@+id/list_layout_btn_posts"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/activity_main_btn_show_post" />
-
-            <Button
-                android:id="@+id/list_layout_btn_details"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/activity_main_btn_show_details" />
-
-        </LinearLayout>
-    </ScrollView>
-
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_gravity="center" />
 </LinearLayout>

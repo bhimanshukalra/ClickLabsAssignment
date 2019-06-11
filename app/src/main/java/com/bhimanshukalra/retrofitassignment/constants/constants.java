@@ -1,7 +1,7 @@
 package com.bhimanshukalra.retrofitassignment.constants;
 
 public class constants {
-    public static final String SERVER_ERROR_OCCURED = "Server error occured.";
+    public static final String SERVER_ERROR_OCCURRED = "Server error occurred.";
     public static final String BASE_URL = "https://jsonplaceholder.typicode.com";
     public static final String ALERT_DIALOG_TITLE = "User Details";
     public static final String TV_ROLL_NUM_LABEL = "Roll number";
@@ -27,4 +27,10 @@ public class constants {
     public static final String USER_COMPANY_CATCH_PHRASE = "Catch phrase: ";
     public static final String USER_COMPANY_BS = "Bs: ";
     public static final String USER_INTENT_KEY = "user";
+    public static final String HOME_ACTIVITY_TITLE = "Home";
+    public static final String POST_LIST_ACTIVITY_TITLE = "Posts";
+    public static final String INTERNET_CONNECTION_ERROR = "Check internet connection.";
+    public static final String INTERNET_ERROR_TITLE = "Connectivity error.";
+    public static final String INTERNET_ERROR_PRIMARY_BTN = "Try again.";
+
 }

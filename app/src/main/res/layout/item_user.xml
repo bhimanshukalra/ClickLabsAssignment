@@ -8,25 +8,40 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/tileColor"
         android:padding="@dimen/small_spacing">
 
         <ImageView
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:id="@+id/item_user_img_user"
-            android:src="@drawable/user"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:contentDescription="@string/activity_main_img_content_desc"
-            android:layout_height="match_parent" />
+            android:src="@drawable/user_list_icon" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/item_user_tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                tools:text="@string/tv_name_label" />
+
+            <TextView
+                android:id="@+id/item_user_tv_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                tools:text="@string/tv_email_label" />
+        </LinearLayout>
 
         <TextView
-            android:id="@+id/item_user_tv_center"
-            android:layout_width="wrap_content"
-            android:layout_weight="2"
-            android:gravity="center"
-            android:layout_height="wrap_content"
-            tools:text="@string/tv_name_label" />
-        <TextView
-            android:id="@+id/item_user_tv_right"
+            android:id="@+id/item_user_tv_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

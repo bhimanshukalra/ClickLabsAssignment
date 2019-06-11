@@ -3,6 +3,8 @@ package com.bhimanshukalra.retrofitassignment.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.SerializedName;
+
 import static com.bhimanshukalra.retrofitassignment.constants.constants.NEXT_LINE;
 import static com.bhimanshukalra.retrofitassignment.constants.constants.USER_CITY;
 import static com.bhimanshukalra.retrofitassignment.constants.constants.USER_COMPANY_BS;
@@ -21,15 +23,22 @@ import static com.bhimanshukalra.retrofitassignment.constants.constants.USER_WEB
 import static com.bhimanshukalra.retrofitassignment.constants.constants.USER_ZIP_CODE;
 
 public class User implements Parcelable {
+    @SerializedName("id")
     private int id;
+    @SerializedName("name")
     private String name;
+    @SerializedName("username")
     private String username;
+    @SerializedName("email")
     private String email;
+    @SerializedName("address")
     private UserAddress address;
+    @SerializedName("phone")
     private String phone;
+    @SerializedName("website")
     private String website;
+    @SerializedName("company")
     private UserCompany company;
-//TODO: Seriselizabe
 
     protected User(Parcel in) {
         id = in.readInt();
@@ -39,6 +48,7 @@ public class User implements Parcelable {
         phone = in.readString();
         website = in.readString();
     }
+
 
     public static final Creator<User> CREATOR = new Creator<User>() {
         @Override
@@ -52,16 +62,7 @@ public class User implements Parcelable {
         }
     };
 
-    public String getPrimaryUserDetails(){
-        String userDetails = "";
-        userDetails += USER_ID + id + NEXT_LINE;
-        userDetails += USER_NAME + name + NEXT_LINE;
-        userDetails += USER_EMAIL + email + NEXT_LINE;
-        return userDetails;
-    }
-
-
-    public String getAllUserDetails(){
+    public String getAllUserDetails() {
         String userDetails = "";
         userDetails += USER_ID + id + NEXT_LINE;
         userDetails += USER_NAME + name + NEXT_LINE;
@@ -89,28 +90,8 @@ public class User implements Parcelable {
         return name;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
     public String getEmail() {
         return email;
-    }
-
-    public UserAddress getAddress() {
-        return address;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public String getWebsite() {
-        return website;
-    }
-
-    public UserCompany getCompany() {
-        return company;
     }
 
     @Override

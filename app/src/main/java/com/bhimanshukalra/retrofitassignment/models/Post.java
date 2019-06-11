@@ -1,25 +1,16 @@
 package com.bhimanshukalra.retrofitassignment.models;
 
-import static com.bhimanshukalra.retrofitassignment.constants.constants.NEXT_LINE;
-import static com.bhimanshukalra.retrofitassignment.constants.constants.POST_BODY;
-import static com.bhimanshukalra.retrofitassignment.constants.constants.POST_ID;
-import static com.bhimanshukalra.retrofitassignment.constants.constants.POST_TITLE;
-import static com.bhimanshukalra.retrofitassignment.constants.constants.POST_USER_ID;
+import com.google.gson.annotations.SerializedName;
 
 public class Post {
+    @SerializedName("userId")
     private int userId;
+    @SerializedName("id")
     private int id;
+    @SerializedName("title")
     private String title;
+    @SerializedName("body")
     private String body;
-
-    public String getPostDetails(){
-        String postDetails = "";
-        postDetails += POST_USER_ID + userId + NEXT_LINE;
-        postDetails += POST_ID+ id + NEXT_LINE;
-        postDetails += POST_TITLE+ NEXT_LINE + title + NEXT_LINE;
-        postDetails += POST_BODY+ NEXT_LINE + body + NEXT_LINE;
-        return postDetails;
-    }
 
     public int getUserId() {
         return userId;

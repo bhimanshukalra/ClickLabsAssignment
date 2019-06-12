@@ -43,7 +43,6 @@ public class PostListActivity extends AppCompatActivity {
     private ProgressBar mProgressBar;
     private TextView mTvId;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -158,5 +157,4 @@ public class PostListActivity extends AppCompatActivity {
         recyclerView.setVisibility(View.VISIBLE);
         mProgressBar.setVisibility(View.GONE);
     }
-
 }

@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * The Home list adapter for RecyclerView.
  */
-public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.MyViewHolder> {
+public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.MyViewHolder> {
     private List<User> mUserList;
     private ListClickListener mListClickListener;
 
@@ -25,7 +25,7 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.MyView
      *
      * @param userList the list containing user details.
      */
-    public HomeListAdapter(List<User> userList) {
+    public UserListAdapter(List<User> userList) {
         mUserList = userList;
     }
 
@@ -95,7 +95,7 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.MyView
          */
         public MyViewHolder(@NonNull CardView cardView) {
             super(cardView);
-            //post list will not be null, when HomeActivity is using the adapter. Hence, we initialize the TextViews of item_post.
+            //post list will not be null, when UserListActivity is using the adapter. Hence, we initialize the TextViews of item_post.
             tvUserId = cardView.findViewById(R.id.item_user_tv_id);
             tvUserName = cardView.findViewById(R.id.item_user_tv_name);
             tvUserEmail = cardView.findViewById(R.id.item_user_tv_email);

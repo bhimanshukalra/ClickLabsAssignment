@@ -5,24 +5,24 @@
     android:layout_height="match_parent"
     android:background="@color/backgroundColor"
     android:orientation="vertical"
-    tools:context=".activities.HomeActivity">
+    tools:context=".activities.UserListActivity">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/activity_home_recycler_view"
+        android:id="@+id/activity_user_list_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:visibility="gone" />
 
     <ProgressBar
-        android:id="@+id/activity_home_progress_bar"
+        android:id="@+id/activity_user_list_progress_bar"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_gravity="center"
         android:layout_weight="1" />
 
     <ScrollView
-        android:id="@+id/activity_home_scroll_view"
+        android:id="@+id/activity_user_list_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -41,26 +41,26 @@
                 android:src="@drawable/user" />
 
             <TextView
-                android:id="@+id/activity_home_tv_roll_num"
+                android:id="@+id/activity_user_list_tv_roll_num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/tv_roll_num_label" />
 
             <TextView
-                android:id="@+id/activity_home_tv_name"
+                android:id="@+id/activity_user_list_tv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/tv_name_label" />
 
             <TextView
-                android:id="@+id/activity_home_tv_email"
+                android:id="@+id/activity_user_list_tv_email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/extra_small_spacing"
                 android:text="@string/tv_email_label" />
 
             <Button
-                android:id="@+id/activity_home_btn_posts"
+                android:id="@+id/activity_user_list_btn_posts"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/extra_small_spacing"
@@ -69,7 +69,7 @@
                 android:text="@string/activity_main_btn_show_post" />
 
             <Button
-                android:id="@+id/activity_home_btn_details"
+                android:id="@+id/activity_user_list_btn_details"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/btn_secondary"

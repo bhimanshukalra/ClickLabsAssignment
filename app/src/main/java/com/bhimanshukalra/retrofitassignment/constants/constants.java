@@ -14,10 +14,6 @@ public class constants {
     public static final String USER_PHONE = "Phone: ";
     public static final String USER_WEBSITE = "Website: ";
     public static final String USER_COMPANY_NAME = "Company Name: ";
-    public static final String POST_USER_ID = "User id: ";
-    public static final String POST_ID = "Id: ";
-    public static final String POST_TITLE = "Title: ";
-    public static final String POST_BODY = "Body: ";
     public static final String USER_STREET = "Street: ";
     public static final String USER_SUITE = "Suite: ";
     public static final String USER_CITY = "City: ";

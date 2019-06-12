@@ -11,18 +11,18 @@
     </style>
     <style name="globalTextViewStyle">
         <item name="android:textSize">@dimen/standard_text_size</item>
-        <item name="android:textColor">@color/lightTextColor</item>
+        <item name="android:textColor">@color/textColor</item>
     </style>
 
     <style name="globalBtnStyle">
         <item name="android:textSize">@dimen/standard_text_size</item>
-        <item name="android:textColor">@color/lightTextColor</item>
+        <item name="android:textColor">@color/textColor</item>
     </style>
 
     <style name="AlertDialogStyle" parent="Theme.AppCompat.Light.Dialog">
-        <item name="android:background">@color/lighterBackgroundColor</item>
+        <item name="android:background">@color/dialogBackgroundColor</item>
         <item name="android:keyTextSize">40sp</item>
-        <item name="android:textColorPrimary">@color/lightTextColor</item>
+        <item name="android:textColorPrimary">@color/textColor</item>
     </style>
 
 </resources>

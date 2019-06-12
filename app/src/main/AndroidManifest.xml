@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activities.PostListActivity"></activity>
-        <activity android:name=".activities.HomeActivity">
+        <activity android:name=".activities.UserListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

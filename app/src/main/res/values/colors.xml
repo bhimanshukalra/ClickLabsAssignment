@@ -3,10 +3,9 @@
     <color name="colorPrimary">#424242</color>
     <color name="colorPrimaryDark">#212121</color>
     <color name="colorAccent">#FFFFFF</color>
-    <color name="defaultTextColor">#000000</color>
-    <color name="backgroundColor">#616161</color>
-    <color name="lighterBackgroundColor">#A3616161</color>
-    <color name="tileColor">#000000</color>
-    <color name="lightTextColor">#FFFFFF</color>
-    <color name="darkBackgroundColor">#131313</color>
+    <color name="dialogBackgroundColor">#A3616161</color>
+    <color name="cardColor">#000000</color>
+    <color name="textColor">#FFFFFF</color>
+    <color name="btnBackgroundColor">#131313</color>
+    <color name="backgroundColor">#555555</color>
 </resources>

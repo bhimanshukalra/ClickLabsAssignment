@@ -15,7 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bhimanshukalra.retrofitassignment.R;
-import com.bhimanshukalra.retrofitassignment.adapters.HomeListAdapter;
+import com.bhimanshukalra.retrofitassignment.adapters.UserListAdapter;
 import com.bhimanshukalra.retrofitassignment.models.JsonPlaceHolderApi;
 import com.bhimanshukalra.retrofitassignment.models.User;
 
@@ -40,7 +40,7 @@ import static com.bhimanshukalra.retrofitassignment.utilities.Util.isNetworkConn
 /**
  * The Home Page activity.
  */
-public class HomeActivity extends AppCompatActivity implements HomeListAdapter.ListClickListener, View.OnClickListener {
+public class UserListActivity extends AppCompatActivity implements UserListAdapter.ListClickListener, View.OnClickListener {
     private TextView mTvId;
     private TextView mTvName;
     private TextView mTvEmail;
@@ -50,7 +50,7 @@ public class HomeActivity extends AppCompatActivity implements HomeListAdapter.L
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_user_list);
         init();
     }
 
@@ -71,6 +71,18 @@ public class HomeActivity extends AppCompatActivity implements HomeListAdapter.L
             mProgressBar.setVisibility(View.VISIBLE);
         }
         initRetrofit();
+        findViewById(R.id.activity_user_list_btn_details).setOnClickListener(this);
+        findViewById(R.id.activity_user_list_btn_posts).setOnClickListener(this);
+    }
+
+    /**
+     * This function declares and initializes all views used in this activity.
+     */
+    private void decelerationsAndInitializations() {
+        mTvId = findViewById(R.id.activity_user_list_tv_roll_num);
+        mTvName = findViewById(R.id.activity_user_list_tv_name);
+        mTvEmail = findViewById(R.id.activity_user_list_tv_email);
+        mProgressBar = findViewById(R.id.activity_user_list_progress_bar);
     }
 
     /**
@@ -90,18 +102,6 @@ public class HomeActivity extends AppCompatActivity implements HomeListAdapter.L
         alertDialog.setCanceledOnTouchOutside(false);
     }
 
-    /**
-     * This function declares and initializes all views used in this activity.
-     */
-    private void decelerationsAndInitializations() {
-        mTvId = findViewById(R.id.activity_home_tv_roll_num);
-        mTvName = findViewById(R.id.activity_home_tv_name);
-        mTvEmail = findViewById(R.id.activity_home_tv_email);
-        mProgressBar = findViewById(R.id.activity_home_progress_bar);
-        findViewById(R.id.activity_home_btn_details).setOnClickListener(this);
-        findViewById(R.id.activity_home_btn_posts).setOnClickListener(this);
-    }
-
     @Override
     public void onClick(View view) {
         //Check if any user is selected.
@@ -111,11 +111,11 @@ public class HomeActivity extends AppCompatActivity implements HomeListAdapter.L
         }
         int id = Integer.parseInt(mTvId.getText().toString().trim()) - 1;
         switch (view.getId()) {
-            case R.id.activity_home_btn_details:
+            case R.id.activity_user_list_btn_details:
                 showDetailsAlertDialog(id);
                 break;
-            case R.id.activity_home_btn_posts:
-                Intent postListIntent = new Intent(HomeActivity.this, PostListActivity.class);
+            case R.id.activity_user_list_btn_posts:
+                Intent postListIntent = new Intent(UserListActivity.this, PostListActivity.class);
                 postListIntent.putExtra(USER_INTENT_KEY, mUsers.get(id));
                 startActivity(postListIntent);
                 break;
@@ -130,7 +130,7 @@ public class HomeActivity extends AppCompatActivity implements HomeListAdapter.L
     private void showDetailsAlertDialog(int id) {
         final AlertDialog alertDialog = new AlertDialog.Builder(this, R.style.AlertDialogStyle)
                 .setTitle(ALERT_DIALOG_TITLE)
-                .setView(R.layout.layout_alert_dialog)
+                .setView(R.layout.layout_details_dialog)
                 .show();
 
         //Set text in dialog.
@@ -168,7 +168,7 @@ public class HomeActivity extends AppCompatActivity implements HomeListAdapter.L
             @Override
             public void onResponse(@NonNull Call<List<User>> call, @NonNull Response<List<User>> response) {
                 if (!response.isSuccessful()) {
-                    Toast.makeText(HomeActivity.this, SERVER_ERROR_OCCURRED, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(UserListActivity.this, SERVER_ERROR_OCCURRED, Toast.LENGTH_SHORT).show();
                     return;
                 }
                 mUsers = response.body();
@@ -177,7 +177,7 @@ public class HomeActivity extends AppCompatActivity implements HomeListAdapter.L
 
             @Override
             public void onFailure(@NonNull Call<List<User>> call, @NonNull Throwable throwable) {
-                Toast.makeText(HomeActivity.this, SERVER_ERROR_OCCURRED, Toast.LENGTH_SHORT).show();
+                Toast.makeText(UserListActivity.this, SERVER_ERROR_OCCURRED, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -188,10 +188,10 @@ public class HomeActivity extends AppCompatActivity implements HomeListAdapter.L
      * @param users This is the user list fetched from API call.
      */
     private void initRecyclerView(List<User> users) {
-        RecyclerView recyclerView = findViewById(R.id.activity_home_recycler_view);
-        HomeListAdapter homeListAdapter = new HomeListAdapter(users);
-        homeListAdapter.setInstance(this);
-        recyclerView.setAdapter(homeListAdapter);
+        RecyclerView recyclerView = findViewById(R.id.activity_user_list_recycler_view);
+        UserListAdapter userListAdapter = new UserListAdapter(users);
+        userListAdapter.setInstance(this);
+        recyclerView.setAdapter(userListAdapter);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 

@@ -83,11 +83,6 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.MyView
         private TextView tvUserName;
         private TextView tvUserEmail;
 
-        private TextView tvPostUserId;
-        private TextView tvPostId;
-        private TextView tvPostTitle;
-        private TextView tvPostBody;
-
         /**
          * Instantiates a new My view holder.
          *
